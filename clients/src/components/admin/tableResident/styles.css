@@ -1,0 +1,20 @@
+.table__household{
+    text-align: center;
+}
+.table__success{
+    font-size: 15px;
+    background: red;
+    padding: 7px 7px;
+    border-radius: 15px;
+    display: inline;
+    color: white;
+}
+
+.table__warning{
+    font-size: 15px;
+    background: green;
+    padding: 7px 7px;
+    border-radius: 15px;
+    display: inline;
+    color: white;
+}

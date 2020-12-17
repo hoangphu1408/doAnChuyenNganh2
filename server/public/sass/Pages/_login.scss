@@ -1,0 +1,90 @@
+.login{
+    text-align: center;
+    min-height: 100vh;
+    background: url("../img/bgLogin.jpg") no-repeat center;
+    background-size: cover;
+    position: relative;
+    z-index: 1;
+    &:before{
+        content: "";
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: .9;
+        background: #005bea;
+        z-index: -1;
+    }
+    .login__content{
+        width: 600px;
+        height: 400px;
+        padding-top: 190px;
+        margin: 0 auto;
+        z-index: 5;
+        .loader{
+            margin: 0 auto;
+            border: 16px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 16px solid #3498db;
+            width: 120px;
+            height: 120px;
+            -webkit-animation: spin 2s linear infinite; /* Safari */
+            animation: spin 2s linear infinite;
+        }
+        .login__avatar{
+            vertical-align: middle;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+        }
+        .login__userName{
+            margin-top: 10px;
+            margin-bottom: 30px;
+            font-size: 24px;
+            line-height: 24px;
+            font-weight: 700;
+            color: white;
+        }
+        .login__form{
+            margin: 0 auto;
+            width: 60%;
+            .login__input{
+                background: #E6E6E6;
+                height: 50px;
+                width: 100%;
+                border-radius: 25px;
+                padding: 25px;
+                border: none;
+                &:focus{
+                    outline: none;
+                }
+            }
+            .login__btn{
+                height: 50px;
+                width: 100%;
+                border-radius: 25px;
+                background: #000;
+                color: white;
+                border: none;
+                transition: all .5s;
+                &:hover{
+                    background: #E6E6E6;
+                    color: black;
+                }
+                &:focus{
+                    outline: none;
+                }
+            }
+        }
+        .login__forgot{
+            color: white;
+            transition: color .5s;
+            &:hover{
+                text-decoration: none;
+                color: black;
+            }
+        }
+    }
+}

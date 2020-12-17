@@ -1,0 +1,96 @@
+.register-form_wrapper{
+  margin: 0 auto;
+  width: 45%;
+  padding-top: 14%;
+  padding-bottom: 14.15%;
+}
+
+.register-title{
+    font-family: 'Quicksand', sans-serif;
+    color: #8dcaff;
+}
+
+.register-form_wrapper .form-group {
+    padding-left: 25%;
+    padding-right: 25%;
+}
+
+.register-form_wrapper .user-name, .register-form_wrapper .password, .register-form_wrapper .code {
+    position: relative;
+}
+
+.register-form_wrapper .icon{
+    position: absolute;
+    right: 51px;
+    top: 40%;
+    font-size: 1rem;
+    z-index: 1;
+}
+
+.register-form_wrapper .register-form input {
+    width: 100%;
+    background: #fff;
+    border: 1px solid #e7edf2;
+    padding: 1.5rem 2rem;
+}
+
+.register-form_wrapper .user-name input{
+    border-radius: 12px 12px 0 0;
+}
+
+.register-form_wrapper .code input{
+    border-radius: 0 0 12px 12px;
+}
+
+
+.register-form_wrapper input:focus{
+    outline: none;
+}
+
+.register-form_wrapper .remember {
+    margin: 0 auto;
+    width: 75%;
+}
+
+.register-button{
+    position: relative;
+}
+
+.register-button .register-arrow_btn {
+    position: absolute;
+    top: -1px;
+    left: 52px;
+    font-size: 2rem;
+    color: #8dcaff;
+}
+
+.register-arrow_btn{
+    background: none;
+    border: none;
+}
+
+.register-btn{
+    display: flex;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    background: linear-gradient(to right,#8dcaff,#0684f1);
+    transition: all .5s;
+    border: none;
+    color: white;
+}
+
+.register-btn:hover{
+    background: #8dcaff;
+}
+
+.register-btn:focus, .register-arrow_btn:focus {
+    outline: none;
+}
+
+.form-alert{
+    color: red;
+    margin-top: 3px;
+    margin-bottom: 5px;
+    padding-left: 5px;
+}

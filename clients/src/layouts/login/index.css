@@ -1,0 +1,18 @@
+.login {
+    background: url("../../assets/img/bg01.jpg");
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    position: relative;
+}
+
+.login-overplay{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: #000;
+    opacity: .7;
+    z-index: 0;
+}
