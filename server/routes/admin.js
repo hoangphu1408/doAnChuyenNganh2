@@ -30,14 +30,24 @@ router.delete('/api/xoaCuDan', async(req,res) => {
     return await xoaCuDan(req.query.id, res);
 })
 
+router.get('/api/layDanhSachTaiKhoanCuDan', async(req,res) =>{
+    return await getAccount(res);
+})
+
 router.post('/api/themTaiKhoanCuDan', async(req,res) => {
     console.log(req.body);
     return themTaiKhoanCuDan(req.body.data,res);
 })
 
 router.delete('/api/xoaTaiKhoanCuDan', async(req,res) =>{
-    //console.log(req.query.id);
     return xoaTaiKhoanCuDan(req.query.id, res);
+})
+
+router.put('/api/suaTaiKhoanCuDan', async(req,res) => {
+
+})
+
+router.get('/api/profile', async(req,res) =>{
 })
 
 module.exports = router;

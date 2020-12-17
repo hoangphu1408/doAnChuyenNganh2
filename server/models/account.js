@@ -18,6 +18,10 @@ const accountSchema = new Schema({
         unique: true,
         trim: true,
     },
+    username: {
+        type:String,
+
+    },
     email_verify: {
         type: Boolean,
         default: false,
