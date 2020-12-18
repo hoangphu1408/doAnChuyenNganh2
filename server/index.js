@@ -22,7 +22,6 @@ app.use(express.urlencoded({extended: true}));
 // EJS
 app.use(expressLayouts);
 app.set("view engine", "ejs");
-// let i =0;
 io.on('connection', (socket) => {
     // socket.on('set-email', (email) => {
     //     i++;

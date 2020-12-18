@@ -1,7 +1,7 @@
 const router = require('express').Router();
 
 const { registrationAccount, verifyEmailToken } =  require("../utils/Auth");
-const { getAccount, getResident } = require("../utils/GetData");
+const { getAccount, getResident, getAccountAdmin } = require("../utils/GetData");
 const { themCuDan, themTaiKhoanCuDan } = require('../utils/PostData');
 const { suaCuDan } = require('../utils/PutData');
 const { xoaCuDan, xoaTaiKhoanCuDan } = require('../utils/DeleteData');
@@ -49,5 +49,11 @@ router.put('/api/suaTaiKhoanCuDan', async(req,res) => {
 
 router.get('/api/profile', async(req,res) =>{
 })
+
+router.get('/api/layDanhSachTaiKhoanQuanTri', async (req,res) =>{
+    return await getAccountAdmin(res);
+})
+
+
 
 module.exports = router;

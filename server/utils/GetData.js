@@ -11,7 +11,13 @@ const getAccount = async (res) =>{
     return res.json(account);
 }
 
+const getAccountAdmin = async (res) =>{
+    const account = await Account.find({role: "admin"});
+    return res.json(account);
+}
+
 module.exports = {
     getAccount,
-    getResident
+    getResident,
+    getAccountAdmin
 }

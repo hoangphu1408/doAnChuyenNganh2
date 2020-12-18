@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Switch, Route } from "react-router-dom";
 import history from "../../../routes/history";
 import Resident from "../resident";
+import TaiKhoanQuanTri from "../taiKhoanQuanTri";
 
 import "./styles.css";
 class Dashboard extends Component {
@@ -63,6 +64,9 @@ class Dashboard extends Component {
           </Route>
           <Route exact path="/admin/cu-dan/tai-khoan-cu-dan">
             <Resident options="2" />
+          </Route>
+          <Route exact path="/admin/nha-quan-tri">
+            <TaiKhoanQuanTri options="2" />
           </Route>
         </Switch>
       </div>

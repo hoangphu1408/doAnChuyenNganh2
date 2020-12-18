@@ -12,3 +12,10 @@ export const ADD_RESIDENT = "ADD_RESIDENT";
 export const SAVE_LIST_RESIDENT = "SAVE_LIST_RESIDENT";
 export const EDIT_RESIDENT = "EDIT_RESIDENT";
 export const DELETE_RESIDENT = "DELETE_RESIDENT";
+
+// account 
+
+export const SAVE_LIST_ACCOUNT = "SAVE_LIST_ACCOUNT";
+export const ADD_ACCOUNT = "ADD_ACCOUNT";
+export const EDIT_ACCOUNT = "EDIT_ACCOUNT";
+export const DELETE_ACCOUNT = "DELETE_ACCOUNT";

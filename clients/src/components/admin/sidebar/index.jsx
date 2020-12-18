@@ -56,7 +56,7 @@ class Sidebar extends Component {
             </ul>
           </li>
           <li>
-            <a href="abc">Portfolio</a>
+            <a href="/admin/nha-quan-tri">Nhà quản trị</a>
           </li>
           <li>
             <a href="abc">Contact</a>
