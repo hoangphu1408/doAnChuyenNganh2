@@ -1,13 +1,13 @@
 import React, { Component } from "react";
-import tableTaiKhoanQuanTri from "../tableTaiKhoanQuanTri";
-import themTaiKhoanQuanTri from "../themTaiKhoanQuanTri";
+import TableTaiKhoanQuanTri from "../tableTaiKhoanQuanTri";
+import ThemTaiKhoanQuanTri from "../themTaiKhoanQuanTri";
 
 class TaiKhoanQuanTri extends Component {
   render() {
     return (
       <>
-        <themTaiKhoanQuanTri />
-        <tableTaiKhoanQuanTri />
+        <ThemTaiKhoanQuanTri />
+        <TableTaiKhoanQuanTri />
       </>
     );
   }

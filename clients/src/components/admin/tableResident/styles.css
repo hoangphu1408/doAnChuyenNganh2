@@ -3,7 +3,7 @@
 }
 .table__success{
     font-size: 15px;
-    background: red;
+    background: green;
     padding: 7px 7px;
     border-radius: 15px;
     display: inline;
@@ -12,7 +12,7 @@
 
 .table__warning{
     font-size: 15px;
-    background: green;
+    background: red;
     padding: 7px 7px;
     border-radius: 15px;
     display: inline;

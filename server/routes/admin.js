@@ -3,7 +3,7 @@ const router = require('express').Router();
 const { registrationAccount, verifyEmailToken } =  require("../utils/Auth");
 const { getAccount, getResident, getAccountAdmin } = require("../utils/GetData");
 const { themCuDan, themTaiKhoanCuDan } = require('../utils/PostData');
-const { suaCuDan } = require('../utils/PutData');
+const { suaCuDan, suaTaiKhoan } = require('../utils/PutData');
 const { xoaCuDan, xoaTaiKhoanCuDan } = require('../utils/DeleteData');
 router.get('/verify-mail/:token', async( req,res) => {
     return verifyEmailToken(req.params.token, res);
@@ -54,6 +54,8 @@ router.get('/api/layDanhSachTaiKhoanQuanTri', async (req,res) =>{
     return await getAccountAdmin(res);
 })
 
-
+router.put('/api/suaTaiKhoanQuanTri', async(req,res) =>{
+    return await suaTaiKhoan(req.query.id, req.body.data, res);
+})
 
 module.exports = router;

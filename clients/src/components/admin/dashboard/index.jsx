@@ -66,7 +66,7 @@ class Dashboard extends Component {
             <Resident options="2" />
           </Route>
           <Route exact path="/admin/nha-quan-tri">
-            <TaiKhoanQuanTri options="2" />
+            <TaiKhoanQuanTri />
           </Route>
         </Switch>
       </div>

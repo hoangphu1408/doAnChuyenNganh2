@@ -1,23 +1,21 @@
 import React, { Component, Fragment } from "react";
 import ReactDatatable from "@ashvin27/react-datatable";
-import DatePicker from "react-datepicker";
 import { connect } from "react-redux";
 import { orderBy } from "lodash";
-import * as actions from "../../../redux/actions/resident";
+import * as actions from "../../../redux/actions/account";
 import "./styles.css";
 class TableTaiKhoanQuanTri extends Component {
   constructor(props) {
     super(props);
     this.columns = [
       {
-        key: "role",
-        text: "Quyền",
-        className: "firstName",
+        key: "email",
+        text: "Email",
         sortable: true,
       },
       {
-        key: "email",
-        text: "Email",
+        key: "role",
+        text: "Quyền",
         sortable: true,
       },
       {
@@ -168,10 +166,10 @@ class TableTaiKhoanQuanTri extends Component {
     });
   };
   componentDidMount = () => {
-    this.props.saveListResident();
+    this.props.saveListAccount();
   };
-  editResident = () => {
-    this.props.editResident(this.state.chiTietTaiKhoan);
+  editTaiKhoan = () => {
+    this.props.editAccount(this.state.chiTietTaiKhoan);
   };
   renderEdit = () => {
     let { chiTietTaiKhoan } = this.state;
@@ -184,25 +182,26 @@ class TableTaiKhoanQuanTri extends Component {
               <div className="row row-space">
                 <div className="col-6">
                   <div className="input-group">
-                    <label htmlFor="">Tên</label>
+                    <label htmlFor="">id</label>
                     <input
                       type="text"
                       className="addingResident__input"
-                      name="ten"
+                      name="id"
                       onChange={this._handlerChange}
-                      value={chiTietTaiKhoan.ten}
+                      value={chiTietTaiKhoan._id}
+                      disabled
                     />
                   </div>
                 </div>
                 <div className="col-6">
                   <div className="input-group">
-                    <label htmlFor="">Họ và tên đệm</label>
+                    <label htmlFor="">email</label>
                     <input
                       type="text"
                       className="addingResident__input"
-                      name="hoVaTenDem"
+                      name="email"
                       onChange={this._handlerChange}
-                      value={chiTietTaiKhoan.hoVaTenDem}
+                      value={chiTietTaiKhoan.email}
                     />
                   </div>
                 </div>
@@ -210,61 +209,29 @@ class TableTaiKhoanQuanTri extends Component {
               <div className="row row-space">
                 <div className="col-6">
                   <div className="input-group">
-                    <label htmlFor="" className="w-100">
-                      Ngày sinh
-                    </label>
-                    <DatePicker
-                      className="addingResident__input"
-                      dateFormat="dd/MM/yyyy"
-                      selected={this.state.chiTietTaiKhoan.namSinh}
-                      onChange={(date) => this.handleChange(date)}
-                      name="namSinh"
-                      peekNextMonth
-                      showMonthDropdown
-                      showYearDropdown
-                      dropdownMode="select"
-                    ></DatePicker>
-                  </div>
-                </div>
-                <div className="col-6">
-                  <div className="input-group">
-                    <label htmlFor="">Giới tính</label>
+                    <label htmlFor="">Xác thực email</label>
                     <select
-                      name="gioiTinh"
+                      name="email_verify"
                       onChange={this._handlerChange}
                       className="addingResident__input addingResident__input--select"
-                      value={chiTietTaiKhoan.gioiTinh}
+                      value={chiTietTaiKhoan.email_verify}
                     >
-                      <option value="Nam">Nam</option>
-                      <option value="Nữ">Nữ</option>
+                      <option value="true">Đã kích hoạt</option>
+                      <option value="false">Chưa kích hoạt</option>
                     </select>
                   </div>
                 </div>
-              </div>
-              <div className="row row-space">
                 <div className="col-6">
                   <div className="input-group">
-                    <label>Căn cước công dân</label>
-                    <input
-                      type="text"
-                      className="addingResident__input"
-                      name="canCuocCongDan"
-                      onChange={this._handlerChange}
-                      value={chiTietTaiKhoan.canCuocCongDan}
-                    />
-                  </div>
-                </div>
-                <div className="col-6">
-                  <div className="input-group">
-                    <label htmlFor="">Hộ khẩu</label>
+                    <label htmlFor="">Trạng thái tài khoản</label>
                     <select
                       name="hoKhau"
                       onChange={this._handlerChange}
                       className="addingResident__input addingResident__input--select"
-                      value={chiTietTaiKhoan.hoKhau}
+                      value={chiTietTaiKhoan.status}
                     >
-                      <option value="Chưa bổ sung">Chưa nộp</option>
-                      <option value="Đã nộp">Đã nộp</option>
+                      <option value="true">Đang hoạt động</option>
+                      <option value="false">Tạm dừng hoạt động</option>
                     </select>
                   </div>
                 </div>
@@ -272,7 +239,7 @@ class TableTaiKhoanQuanTri extends Component {
               <div className="pt-3">
                 <button
                   className="btn addingResident__btn"
-                  onClick={this.editResident}
+                  onClick={this.editTaiKhoan}
                 >
                   Sửa
                 </button>
@@ -285,13 +252,13 @@ class TableTaiKhoanQuanTri extends Component {
   };
 
   render() {
-    let { danhSachCuDan } = this.props;
+    let { danhSachTaiKhoan } = this.props;
     return (
       <div>
         {this.renderEdit()}
         <ReactDatatable
           config={this.config}
-          records={danhSachCuDan}
+          records={danhSachTaiKhoan}
           columns={this.columns}
           onSort={this.onSort}
           key
@@ -302,19 +269,16 @@ class TableTaiKhoanQuanTri extends Component {
 }
 const mapStateToProps = (state) => {
   return {
-    danhSachCuDan: state.residentReducer.danhSachCuDan,
+    danhSachTaiKhoan: state.accountReducer.danhSachTaiKhoan,
   };
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    saveListResident: () => {
-      dispatch(actions.luuDanhSachCuDan());
+    saveListAccount: () => {
+      dispatch(actions.layDanhSachTaiKhoan());
     },
-    editResident: (data) => {
-      dispatch(actions.suaCuDan(data));
-    },
-    xoaCuDan: (id) => {
-      dispatch(actions.xoaCuDan(id));
+    editAccount: (data) => {
+      dispatch(actions.chinhSuaTaiKhoan(data));
     },
   };
 };
