@@ -16,7 +16,7 @@ const xoaCuDan = async(id, res) =>{
 const xoaTaiKhoanCuDan = async(id,res) => {
     try{
         const taiKhoan = await Account.findOne({_id: id})
-    const xoa = await Account.findByIdAndDelete({_id: id}, async (err, data) =>{
+        const xoa = await Account.findByIdAndDelete({_id: id}, async (err, data) =>{
         if(err)
             return res.json({"error_xoaTaiKhoan": "Khong the xoa"});
         else
@@ -26,11 +26,27 @@ const xoaTaiKhoanCuDan = async(id,res) => {
             }
         })
     }catch(err){
-        return res.status(400).json("error");
+        return res.status(400).json(error);
+    }
+}
+
+const xoaTaiKhoanQuanTri = async(id, res) => {
+    try{
+        const taiKhoan = await Account.findOne({_id: id});
+        const xoa = await Account.findByIdAndDelete({_id: id}, async(err, data) => {
+            if(err)
+                return res.json({"error_xoaTaiKhoan": "Khong the xoa"});
+            else{
+                return res.status(200).json({_id: id});
+            }
+        })
+    }catch(err){
+        return res.status(400).json(err);
     }
 }
 
 module.exports = {
     xoaCuDan,
-    xoaTaiKhoanCuDan
+    xoaTaiKhoanCuDan,
+    xoaTaiKhoanQuanTri
 }

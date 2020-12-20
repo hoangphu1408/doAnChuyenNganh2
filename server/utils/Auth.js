@@ -28,7 +28,7 @@ const registrationAccount = async (data,res) =>{
         role: "admin",
         email: email,
         password: hashedPassword,
-        date: Date.now(),
+        date: (new Date()).toISOString(),
         status: true,
     })
     await newAccount.save();
@@ -68,6 +68,34 @@ const loginAccount = async (data,res) =>{
     }
     return res.json({"isLogin": true,signToken,account} );
 }
+
+const taoTaiKhoan = async (data, res) => {
+   const {email, password} = data;
+
+     const isUser = await findEmail(email);
+    if(isUser){
+       res.json({ "error_register": "Email is already exist"});
+       return res.status(401);
+    }
+    const payload = {email: email};
+    const mailToken = jwt.sign(payload, MAIL, {
+        expiresIn: "1 days"
+    })
+    await verifyEmail(email, mailToken);
+    const hashedPassword = await bcrypt.hash(password, 12);
+    const newAccount = new Account({
+      role: "admin",
+      email: email,
+      email_verify: false,
+      password: hashedPassword,
+      date: (new Date()).toISOString(),
+      status: true,
+    });
+    
+    await newAccount.save();
+    return res.status(200).json(newAccount);
+}
+
 
 const findEmail = async(email) => {
     return (await Account.findOne({email: email})) ? true : false;
@@ -120,4 +148,5 @@ module.exports = {
     registrationAccount,
     loginAccount,
     verifyEmailToken,
+    taoTaiKhoan,
 }

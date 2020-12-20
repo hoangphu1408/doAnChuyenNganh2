@@ -4,6 +4,7 @@ const Account = require("../models/account");
 const { KEY, MAIL, EMAIL, PASSWORD } = require("../config");
 const nodemailer = require("nodemailer");
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
 const suaCuDan  = async (id,data, res) =>{
     const { ten, hoVaTenDem, namSinh, gioiTinh, canCuocCongDan, hoKhau } = data;
     let _id = mongoose.Types.ObjectId(id);
@@ -41,9 +42,8 @@ const suaTaiKhoanCuDan = async(id, data, res) =>{
         if(!isAccount){
             return res.status(400).json({"error_editData": "Account is not exist"})
         }
-        const dt = {
-            
-        }
+        
+        return res.status(200);
     }catch(err){
         return res.status(400).json("Error")
     }
@@ -51,39 +51,72 @@ const suaTaiKhoanCuDan = async(id, data, res) =>{
 
 const suaTaiKhoan = async(id, data, res) =>{
     try{
-        const {email, email_verify, status} = data;
+        const { email_verify, status} = data;
         let _id = mongoose.Types.ObjectId(id)
         const isAccount = await timIDTaiKhoan(_id);
         if(!isAccount){
             return res.status(400).json({"error_editData": "Account is not exist"})
         }
-        const isEmail = await timEmailTaiKhoan(email);
-        if(isEmail){
-            // return res.status(400).json({"error_editData": "Email is already exist"})
-            return console.log(isEmail);
-        }
         const dt = {
-            email: email,
             email_verify: email_verify,
             status: status,
         }
-        const payload = {email:email};
-        const mailToken = jwt.sign(payload, MAIL, {
-            expiresIn: "1 days"
-        });
-       
-        await verifyEmail(email, mailToken);
         const updateAccount = await Account.findByIdAndUpdate({_id: _id}, dt, {
             new: true
         });
-        return res.status(200).json(Object.assign({},dt,{_id:id}));
+        const account = await Account.findOne({_id: _id});
+        return res.status(200).json(Object.assign({},account,{_id:id}));
     }catch(err){
         return res.status(400).json(err);
     }
 }
 
-const timEmailTaiKhoan = async(email) => {
-    return (await Account.findOne({email: email}) ? true: false);
+const thayDoiEmailTaiKhoan = async(id, data,res) =>{
+    try{
+        let _id = mongoose.Types.ObjectId(id);
+        let {email} = data;
+        const isAccount = await timIDTaiKhoan(_id);
+        if(!isAccount){
+            return res.status(400).json({"error_changeEmail": "Account is not exist"})
+        }
+        const isEmail = await Account.findOne({email: email});
+        if(isEmail){
+            return res.status(400).json({"error_changeEmail": "Email is already exist"});
+        }
+        const payload = {email: email};
+        const mailToken = jwt.sign(payload, MAIL, {
+            expiresIn: "1 days"
+        })
+        await verifyEmail(email, mailToken);
+        const updateEmail = await Account.findByIdAndUpdate({_id: _id},payload,{ new: true });
+        const account = await Account.findOne({_id: _id});
+        return res.status(200).json(Object.assign({},account,{_id:id}));
+    }catch(err){
+        return res.status(400).json(err);
+    }
+}
+
+const thayDoiMatKhauTaiKhoan = async(id, data, res) =>{
+    try{
+        let _id = mongoose.Types.ObjectId(id);
+        let {password} = data;
+        const isAccount = await timIDTaiKhoan(_id);
+        if(!isAccount){
+            return res.status(400).json({"error_editData": "Account is not exist"})
+        }
+        const hashPassword = await bcrypt.hash(password,12);
+        const dt = {
+            password: hashPassword
+        }
+        const updateMatKhau = await Account.findByIdAndUpdate({
+            _id: _id
+        }, dt, {
+            new: true
+        })
+        return res.status(200);
+    }catch(err){
+        return res.status(400).json(err);
+    }
 }
 
 
@@ -127,5 +160,7 @@ const verifyEmail = (email, mailToken ) => {
 
 module.exports ={
     suaCuDan,
-    suaTaiKhoan
+    suaTaiKhoan,
+    thayDoiMatKhauTaiKhoan,
+    thayDoiEmailTaiKhoan
 }

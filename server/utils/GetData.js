@@ -12,7 +12,8 @@ const getAccount = async (res) =>{
 }
 
 const getAccountAdmin = async (res) =>{
-    const account = await Account.find({role: "admin"});
+    const account = await Account.find({role:"admin"});
+       
     return res.json(account);
 }
 

@@ -35,7 +35,6 @@ const accountSchema = new Schema({
     },
     date: {
         type: Date,
-        required: true,
     },
     status: {
         type: Boolean,

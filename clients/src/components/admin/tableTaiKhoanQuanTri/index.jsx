@@ -63,8 +63,27 @@ class TableTaiKhoanQuanTri extends Component {
               <button
                 className="btn btn-danger btn-sm"
                 onClick={this.deleteRecord.bind(this, record, index)}
+                style={{ marginRight: "5px" }}
               >
                 Xóa
+              </button>
+              <button
+                className="btn btn-info btn-sm"
+                onClick={this.editPasswordRecord.bind(
+                  this,
+                  record,
+                  index,
+                  true
+                )}
+                style={{ marginRight: "5px" }}
+              >
+                Đổi mật khẩu
+              </button>
+              <button
+                className="btn btn-info btn-sm"
+                onClick={this.editEmailRecord.bind(this, record, index, true)}
+              >
+                Đổi email
               </button>
             </Fragment>
           );
@@ -87,25 +106,29 @@ class TableTaiKhoanQuanTri extends Component {
     this.state = {
       records: {},
       opened: false,
+      openedPW: false,
+      openedEmail: false,
       indexEdit: "",
       chiTietTaiKhoan: {
         _id: "",
         role: "",
         email: "",
+        edit_email: "",
         email_verify: "",
         password: "",
         date: "",
         status: "",
       },
+      error: {
+        password: "",
+      },
     };
   }
-
-  editRecord = (record, index, value) => {
-    console.log("edit record", index, record);
-    if (index !== this.state.indexEdit && value === this.state.opened) {
+  editSetState = (record, index, value, type) => {
+    if (index !== this.state.indexEdit && value === this.state[type]) {
       return this.setState({
         indexEdit: index,
-        opened: value,
+        [type]: value,
         chiTietTaiKhoan: {
           _id: record._id,
           role: record.role,
@@ -116,9 +139,9 @@ class TableTaiKhoanQuanTri extends Component {
           status: record.status,
         },
       });
-    } else if (value === this.state.opened && index === this.state.indexEdit)
+    } else if (value === this.state[type] && index === this.state.indexEdit)
       return this.setState({
-        opened: !value,
+        [type]: !value,
         chiTietTaiKhoan: {
           _id: "",
           role: "",
@@ -131,7 +154,7 @@ class TableTaiKhoanQuanTri extends Component {
       });
     else
       return this.setState({
-        opened: value,
+        [type]: value,
         chiTietTaiKhoan: {
           _id: record._id,
           role: record.role,
@@ -143,9 +166,18 @@ class TableTaiKhoanQuanTri extends Component {
         },
       });
   };
+  editRecord = (record, index, value) => {
+    return this.editSetState(record, index, value, "opened");
+  };
 
+  editPasswordRecord = (record, index, value) => {
+    return this.editSetState(record, index, value, "openedPW");
+  };
+  editEmailRecord = (record, index, value) => {
+    return this.editSetState(record, index, value, "openedEmail");
+  };
   deleteRecord = (record, index) => {
-    // this.props.xoaCuDan(record._id);
+    this.props.deleteAccount(record._id);
   };
 
   onSort = (column, records, sortOrder) => {
@@ -160,6 +192,41 @@ class TableTaiKhoanQuanTri extends Component {
       chiTietTaiKhoan: { ...this.state.chiTietTaiKhoan, [name]: value },
     });
   };
+  _handleBlur = (e) => {
+    const { name, value } = e.target;
+    const errorMsg = this.validateInput(name, value);
+    this.setState({ error: { ...this.state.errors, [name]: errorMsg } });
+  };
+
+  validateInput = (name, value) => {
+    let errorsMsg = "";
+    if (name === "edit_email") {
+      // eslint-disable-next-line
+      const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      if (!value) {
+        errorsMsg = "Email không được bỏ trống";
+      } else if (!re.test(value)) {
+        errorsMsg = "Email không hợp lệ";
+      }
+    }
+    if (name === "password") {
+      const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,15}$/;
+      if (!value) {
+        errorsMsg = "Password không được bỏ trống";
+      } else if (!re.test(value)) {
+        errorsMsg = "Password không hợp lệ";
+      }
+    }
+    return errorsMsg;
+  };
+  renderErrors = (errorsMsg) => {
+    if (errorsMsg !== "") {
+      return <p className="form-alert">{errorsMsg}</p>;
+    } else {
+      return "";
+    }
+  };
+
   handleChange = (date) => {
     this.setState({
       chiTietTaiKhoan: { ...this.state.chiTietTaiKhoan, date: date },
@@ -170,6 +237,21 @@ class TableTaiKhoanQuanTri extends Component {
   };
   editTaiKhoan = () => {
     this.props.editAccount(this.state.chiTietTaiKhoan);
+    this.setState({
+      opened: false,
+    });
+  };
+  editPW = () => {
+    this.props.editPassword(this.state.chiTietTaiKhoan);
+    this.setState({
+      openedPW: false,
+    });
+  };
+  editEmail = () => {
+    this.props.editEmail(this.state.chiTietTaiKhoan);
+    this.setState({
+      openedEmail: false,
+    });
   };
   renderEdit = () => {
     let { chiTietTaiKhoan } = this.state;
@@ -182,7 +264,7 @@ class TableTaiKhoanQuanTri extends Component {
               <div className="row row-space">
                 <div className="col-6">
                   <div className="input-group">
-                    <label htmlFor="">id</label>
+                    <label htmlFor="">ID</label>
                     <input
                       type="text"
                       className="addingResident__input"
@@ -195,7 +277,7 @@ class TableTaiKhoanQuanTri extends Component {
                 </div>
                 <div className="col-6">
                   <div className="input-group">
-                    <label htmlFor="">email</label>
+                    <label htmlFor="">Email</label>
                     <input
                       type="text"
                       className="addingResident__input"
@@ -225,7 +307,7 @@ class TableTaiKhoanQuanTri extends Component {
                   <div className="input-group">
                     <label htmlFor="">Trạng thái tài khoản</label>
                     <select
-                      name="hoKhau"
+                      name="status"
                       onChange={this._handlerChange}
                       className="addingResident__input addingResident__input--select"
                       value={chiTietTaiKhoan.status}
@@ -250,12 +332,111 @@ class TableTaiKhoanQuanTri extends Component {
       );
     }
   };
-
+  renderEditPW = () => {
+    let { chiTietTaiKhoan } = this.state;
+    if (this.state.openedPW === true) {
+      return (
+        <div className="addingResident card m-auto">
+          <div className="card-body">
+            <h2 className="addingResident__title">Thay đổi mật khẩu</h2>
+            <form onSubmit={this._handleSubmit}>
+              <div className="row row-space">
+                <div className="col-6">
+                  <div className="input-group">
+                    <label htmlFor="">Email</label>
+                    <input
+                      type="text"
+                      className="addingResident__input"
+                      name="email"
+                      value={chiTietTaiKhoan.email}
+                      disabled
+                    />
+                  </div>
+                </div>
+                <div className="col-6">
+                  <div className="input-group">
+                    <label htmlFor="">Password</label>
+                    <input
+                      type="password"
+                      className="addingResident__input"
+                      name="password"
+                      onChange={this._handlerChange}
+                      onBlur={this._handleBlur}
+                    />
+                    {this.renderErrors(this.state.error.password)}
+                  </div>
+                </div>
+              </div>
+              <div className="pt-3">
+                <button
+                  className="btn addingResident__btn"
+                  onClick={this.editPW}
+                >
+                  Sửa
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      );
+    }
+  };
+  renderEditEmail = () => {
+    let { chiTietTaiKhoan } = this.state;
+    if (this.state.openedEmail === true) {
+      return (
+        <div className="addingResident card m-auto">
+          <div className="card-body">
+            <h2 className="addingResident__title">Thay đổi email</h2>
+            <form onSubmit={this._handleSubmit}>
+              <div className="row row-space">
+                <div className="col-6">
+                  <div className="input-group">
+                    <label htmlFor="">Email hiện tại</label>
+                    <input
+                      type="text"
+                      className="addingResident__input"
+                      name="email_current"
+                      value={chiTietTaiKhoan.email}
+                      disabled
+                    />
+                  </div>
+                </div>
+                <div className="col-6">
+                  <div className="input-group">
+                    <label htmlFor="">Email thay đổi</label>
+                    <input
+                      type="text"
+                      className="addingResident__input"
+                      name="edit_email"
+                      onChange={this._handlerChange}
+                      onBlur={this._handleBlur}
+                    />
+                    {this.renderErrors(this.state.error.email)}
+                  </div>
+                </div>
+              </div>
+              <div className="pt-3">
+                <button
+                  className="btn addingResident__btn"
+                  onClick={this.editEmail}
+                >
+                  Sửa
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      );
+    }
+  };
   render() {
     let { danhSachTaiKhoan } = this.props;
     return (
       <div>
         {this.renderEdit()}
+        {this.renderEditPW()}
+        {this.renderEditEmail()}
         <ReactDatatable
           config={this.config}
           records={danhSachTaiKhoan}
@@ -279,6 +460,15 @@ const mapDispatchToProps = (dispatch) => {
     },
     editAccount: (data) => {
       dispatch(actions.chinhSuaTaiKhoan(data));
+    },
+    editPassword: (data) => {
+      dispatch(actions.thayDoiMatKhau(data));
+    },
+    editEmail: (data) => {
+      dispatch(actions.thayDoiEmail(data));
+    },
+    deleteAccount: (data) => {
+      dispatch(actions.xoaTaiKhoan(data));
     },
   };
 };
