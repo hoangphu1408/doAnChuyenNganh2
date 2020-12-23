@@ -6,8 +6,32 @@ const getResident = async (res) =>{
     return res.json(resident);
 }
 
-const getAccount = async (res) =>{
-    const account = await Account.find({role: "user"});
+const getTaiKhoanCuDan = async (res) =>{
+   const account = await Account.aggregate([{
+       $match: {
+           role: "user",
+       }
+   },{
+       $lookup: {
+           from: "cudans",
+           localField: "id_cuDan",
+            foreignField: "_id",
+            as: "Owner",
+       }
+   },{
+       $project:{
+           role:1,
+           id_cuDan: 1,
+           email: 1,
+           email_verify: 1,
+           date: 1,
+           status: 1,
+           Owner:{
+               ten: 1,
+               hoVaTenDem: 1,
+           }
+       }
+   }])
     return res.json(account);
 }
 
@@ -18,7 +42,7 @@ const getAccountAdmin = async (res) =>{
 }
 
 module.exports = {
-    getAccount,
+    getTaiKhoanCuDan,
     getResident,
     getAccountAdmin
 }

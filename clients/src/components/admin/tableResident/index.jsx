@@ -26,9 +26,9 @@ class TableResident extends Component {
         sortable: true,
         cell: (record, index) => {
           if (record.daCoTaiKhoan === false) {
-            return <p className="table__success">Chưa có tài khoản</p>;
+            return <p className="table__warning">Chưa có tài khoản</p>;
           } else {
-            return <p className="table__warning">Đã có tài khoản</p>;
+            return <p className="table__success">Đã có tài khoản</p>;
           }
         },
       },

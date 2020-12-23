@@ -1,7 +1,7 @@
 const router = require('express').Router();
 
 const { registrationAccount, verifyEmailToken, taoTaiKhoan } =  require("../utils/Auth");
-const { getAccount, getResident, getAccountAdmin } = require("../utils/GetData");
+const { getTaiKhoanCuDan, getResident, getAccountAdmin } = require("../utils/GetData");
 const { themCuDan, themTaiKhoanCuDan } = require('../utils/PostData');
 const { suaCuDan, suaTaiKhoan, thayDoiMatKhauTaiKhoan, thayDoiEmailTaiKhoan } = require('../utils/PutData');
 const { xoaCuDan, xoaTaiKhoanCuDan, xoaTaiKhoanQuanTri } = require('../utils/DeleteData');
@@ -31,20 +31,15 @@ router.delete('/api/xoaCuDan', async(req,res) => {
 })
 
 router.get('/api/layDanhSachTaiKhoanCuDan', async(req,res) =>{
-    return await getAccount(res);
+    return await getTaiKhoanCuDan(res);
 })
 
 router.post('/api/themTaiKhoanCuDan', async(req,res) => {
-    console.log(req.body);
     return themTaiKhoanCuDan(req.body.data,res);
 })
 
 router.delete('/api/xoaTaiKhoanCuDan', async(req,res) =>{
     return xoaTaiKhoanCuDan(req.query.id, res);
-})
-
-router.put('/api/suaTaiKhoanCuDan', async(req,res) => {
-
 })
 
 router.get('/api/profile', async(req,res) =>{

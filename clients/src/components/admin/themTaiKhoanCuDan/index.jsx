@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import * as actions from "../../../redux/actions/resident";
+import * as actions from "../../../redux/actions/account";
 import "./styles.css";
 class ThemTaiKhoanCuDan extends Component {
   constructor(props) {
@@ -131,7 +131,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     saveAccount: (data) => {
-      dispatch(actions.themTaiKhoanCuDan(data));
+      dispatch(actions.themTKCuDan(data));
     },
   };
 };

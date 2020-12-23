@@ -20,3 +20,11 @@ export const ADD_ACCOUNT = "ADD_ACCOUNT";
 export const EDIT_ACCOUNT = "EDIT_ACCOUNT";
 export const EMAIL_ACCOUNT = "EMAIL_ACCOUNT";
 export const DELETE_ACCOUNT = "DELETE_ACCOUNT";
+
+// account cư dân
+
+export const SAVE_LIST_ACCOUNT_CD = "SAVE_LIST_ACCOUNT_CD";
+export const ADD_ACCOUNT_CD = "ADD_ACCOUNT_CD";
+export const EDIT_ACCOUNT_CD = "EDIT_ACCOUNT_CD";
+export const EMAIL_ACCOUNT_CD = "EMAIL_ACCOUNT_CD";
+export const DELETE_ACCOUNT_CD = "DELETE_ACCOUNT_CD";

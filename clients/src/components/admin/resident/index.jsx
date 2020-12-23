@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import AddingResident from "../addingResident";
 import TableResident from "../tableResident";
+import TableTaiKhoanCuDan from "../tableTaiKhoanCuDan";
 import ThemTaiKhoanCuDan from "../themTaiKhoanCuDan";
 
 class Resident extends Component {
@@ -16,7 +17,7 @@ class Resident extends Component {
       return (
         <>
           <ThemTaiKhoanCuDan />
-          <TableResident />
+          <TableTaiKhoanCuDan />
         </>
       );
   };

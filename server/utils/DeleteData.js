@@ -22,7 +22,7 @@ const xoaTaiKhoanCuDan = async(id,res) => {
         else
             {
                 await CuDan.findOneAndUpdate({_id: taiKhoan.id_cuDan}, {daCoTaiKhoan: false}, {new: true});
-                return res.status(200).json("success");
+                return res.status(200).json({_id: id});
             }
         })
     }catch(err){

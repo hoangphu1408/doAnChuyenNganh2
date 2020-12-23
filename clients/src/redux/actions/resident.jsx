@@ -86,27 +86,6 @@ export const luuDanhSachCuDan = () => {
       });
   };
 };
-
-export const themTaiKhoanCuDan = (data) => {
-  const dt = {
-    email: data.email,
-    password: data.password,
-    _id: data._idCuDan,
-  };
-  return (dispatch) => {
-    axios
-      .post("http://localhost:5000/admin/api/themTaiKhoanCuDan", {
-        data: dt,
-      })
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-};
-
 // action
 
 const actAdding = (resident) => {

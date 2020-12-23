@@ -33,22 +33,6 @@ const suaCuDan  = async (id,data, res) =>{
 
 }
 
-const suaTaiKhoanCuDan = async(id, data, res) =>{
-    try{
-        const { email, password } = data;
-        let _id = mongoose.Types.ObjectId(id);
-
-        const isAccount = await timIDCuDan(_id);
-        if(!isAccount){
-            return res.status(400).json({"error_editData": "Account is not exist"})
-        }
-        
-        return res.status(200);
-    }catch(err){
-        return res.status(400).json("Error")
-    }
-}
-
 const suaTaiKhoan = async(id, data, res) =>{
     try{
         const { email_verify, status} = data;

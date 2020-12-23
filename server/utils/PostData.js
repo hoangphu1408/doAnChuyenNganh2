@@ -35,8 +35,8 @@ const timCuDan = async (id) => {
 }
 
 const themTaiKhoanCuDan = async (data, res) => {
-    const {email, password, _id} = data;
-    let id = mongoose.Types.ObjectId(_id);
+    const {email, password, _idCuDan} = data;
+    let id = mongoose.Types.ObjectId(_idCuDan);
     const isAccount = await timTaiKhoan(id);
     if(isAccount){
         return res.status(401).json({"error_addData": "Cư dân đã có tài khoản"})
@@ -51,14 +51,39 @@ const themTaiKhoanCuDan = async (data, res) => {
     const hashPassword = await bcrypt.hash(password,12);
     const newAccount = new Account({
         role: "user",
-        id_cuDan: mongoose.Types.ObjectId(_id),
+        id_cuDan: id,
         email: email,
         password: hashPassword,
-        date: Date.now(),
+        date: (new Date()).toISOString(),
         status:true,
     })
     await newAccount.save();
-    return res.json(newAccount);
+    const account = await Account.aggregate([{
+      $match: {
+          email: email,
+      }
+      },{
+          $lookup: {
+              from: "cudans",
+              localField: "id_cuDan",
+                foreignField: "_id",
+                as: "Owner",
+          }
+      },{
+          $project:{
+              role:1,
+              id_cuDan: 1,
+              email: 1,
+              email_verify: 1,
+              date: 1,
+              status: 1,
+              Owner:{
+                  ten: 1,
+                  hoVaTenDem: 1,
+              }
+          }
+      }])
+    return res.json(account);
 }
 
 const timTaiKhoan = async (id) => {
