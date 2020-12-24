@@ -69,4 +69,8 @@ router.delete('/api/xoaTaiKhoanQuanTri', async(req,res) =>{
     return await deleteData.xoaTaiKhoanQuanTri(req.query.id, res);
 })
 
+router.post('/api/themCanHo', async(req,res) => {
+    return await postData.themCanHo(req.body.data, res);
+})
+
 module.exports = router;

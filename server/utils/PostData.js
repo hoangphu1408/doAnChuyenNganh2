@@ -9,26 +9,30 @@ const jwt = require("jsonwebtoken");
 
 
 const themCuDan = async (data, res) => {
-    const { ten, hoVaTenDem, namSinh, gioiTinh, canCuocCongDan, hoKhau } = data;
+    try{
+      const { ten, hoVaTenDem, namSinh, gioiTinh, canCuocCongDan, hoKhau } = data;
 
-    // kiểm tra cư dân có tồn tại 
-    const isResident = await timCuDan(canCuocCongDan);
-    if(isResident){
-        res.json({"error_addData": "Cư dân đã tồn tại"});
-        return res.status(401);
+      // kiểm tra cư dân có tồn tại 
+      const isResident = await timCuDan(canCuocCongDan);
+      if(isResident){
+          res.json({"error_addData": "Cư dân đã tồn tại"});
+          return res.status(401);
+      }
+
+      // khởi tạo cư dân mới 
+      const newCuDan = new CuDan({
+          ten: ten,
+          hoVaTenDem: hoVaTenDem,
+          namSinh: namSinh,
+          gioiTinh: gioiTinh,
+          canCuocCongDan: canCuocCongDan,
+          hoKhau: hoKhau,
+      });
+      await newCuDan.save();
+      return res.json(newCuDan);
+    }catch(err){
+      return res.status(400).json(err)
     }
-
-    // khởi tạo cư dân mới 
-    const newCuDan = new CuDan({
-        ten: ten,
-        hoVaTenDem: hoVaTenDem,
-        namSinh: namSinh,
-        gioiTinh: gioiTinh,
-        canCuocCongDan: canCuocCongDan,
-        hoKhau: hoKhau,
-    });
-    await newCuDan.save();
-    return res.json(newCuDan);
 }
 
 const timCuDan = async (id) => {
@@ -122,23 +126,40 @@ const verifyEmail = (email, mailToken ,password) => {
 };
 
 const themCanHo = async (data, res) => {
-  const {soCanHo, soTang, maToaNha, chuSoHuu, chieuDai, chieuRong} = data;
-  const isCanHo = await CanHo.findOne({soCanHo: soCanHo, soTang: soTang, maToaNha: maToaNha});
-  if(isCanHo){
-    return res.status(400).json({error_canHo: "Căn hộ đã tồn tại"});
+  try{
+    const {soCanHo, soTang, maToaNha, chuSoHuu, chieuDai, chieuRong} = data;
+    const isCanHo = await CanHo.findOne({soCanHo: soCanHo, soTang: soTang, maToaNha: maToaNha});
+    if(isCanHo){
+      return res.status(400).json({error_canHo: "Căn hộ đã tồn tại"});
+    }
+    const dienTich = chieuDai * chieuRong;
+    let newCanHo;
+    if(chuSoHuu !== null)
+      newCanHo = new CanHo({
+      soCanHo: soCanHo,
+      soTang: soTang,
+      maToaNha: maToaNha,
+      chieuDai: chieuDai,
+      chieuRong: chieuRong,
+      dienTich: dienTich,
+      chuSoHuu: mongoose.Types.ObjectId(chuSoHuu),
+      tinhTrang: true,
+      });
+    else
+      newCanHo = new CanHo({
+      soCanHo: soCanHo,
+      soTang: soTang,
+      maToaNha: maToaNha,
+      chieuDai: chieuDai,
+      chieuRong: chieuRong,
+      dienTich: dienTich,
+      tinhTrang: false,
+      });
+    await newCanHo.save();
+    return res.status(200).json(newCanHo);
+  }catch(err){
+    return res.status(400).json(err);
   }
-  const dienTich = chieuDai * chieuRong;
-  const newCanHo = new CanHo({
-    soCanHo: soCanHo,
-    soTang: soTang,
-    maToaNha: maToaNha,
-    chieuDai: chieuDai,
-    chieuRong: chieuRong,
-    dienTich: dienTich,
-    chuSoHuu: mongoose.Types.ObjectId(chuSoHuu)
-  });
-  await newCanHo.save();
-  return res.status(200);
 }
 
 
@@ -147,4 +168,5 @@ const themCanHo = async (data, res) => {
 module.exports = {
     themCuDan,
     themTaiKhoanCuDan,
+    themCanHo
 }

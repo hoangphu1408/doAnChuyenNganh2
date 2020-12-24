@@ -6,6 +6,7 @@ const xoaCuDan = async(id, res) =>{
         if(err)
             return res.json({"error_xoaCuDan": "Khong the xoa"});
         else
+            
             return res.status(200).json({_id: id});
         })
     }catch(err){
@@ -40,6 +41,14 @@ const xoaTaiKhoanQuanTri = async(id, res) => {
                 return res.status(200).json({_id: id});
             }
         })
+    }catch(err){
+        return res.status(400).json(err);
+    }
+}
+
+const xoaCanHo = async(id, res) => {
+    try{
+
     }catch(err){
         return res.status(400).json(err);
     }
