@@ -1,5 +1,6 @@
 const Account = require("../models/account");
 const CuDan = require("../models/resident");
+const CanHo = require("../models/canHo");
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const { KEY, MAIL, EMAIL, PASSWORD } = require("../config");
@@ -119,6 +120,29 @@ const verifyEmail = (email, mailToken ,password) => {
     }
   });
 };
+
+const themCanHo = async (data, res) => {
+  const {soCanHo, soTang, maToaNha, chuSoHuu, chieuDai, chieuRong} = data;
+  const isCanHo = await CanHo.findOne({soCanHo: soCanHo, soTang: soTang, maToaNha: maToaNha});
+  if(isCanHo){
+    return res.status(400).json({error_canHo: "Căn hộ đã tồn tại"});
+  }
+  const dienTich = chieuDai * chieuRong;
+  const newCanHo = new CanHo({
+    soCanHo: soCanHo,
+    soTang: soTang,
+    maToaNha: maToaNha,
+    chieuDai: chieuDai,
+    chieuRong: chieuRong,
+    dienTich: dienTich,
+    chuSoHuu: mongoose.Types.ObjectId(chuSoHuu)
+  });
+  await newCanHo.save();
+  return res.status(200);
+}
+
+
+
 
 module.exports = {
     themCuDan,

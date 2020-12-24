@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Switch, Route } from "react-router-dom";
 import history from "../../../routes/history";
+import CanHo from "../canHo";
 import Resident from "../resident";
 import TaiKhoanQuanTri from "../taiKhoanQuanTri";
 
@@ -67,6 +68,9 @@ class Dashboard extends Component {
           </Route>
           <Route exact path="/admin/nha-quan-tri">
             <TaiKhoanQuanTri />
+          </Route>
+          <Route exact path="/admin/can-ho">
+            <CanHo />
           </Route>
         </Switch>
       </div>

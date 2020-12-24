@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import * as actions from "../../../redux/actions/account";
-class ThemTaiKhoanCuDan extends Component {
+//import * as actions from "../../../redux/actions/account";
+class ThemCanHo extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -165,17 +165,17 @@ class ThemTaiKhoanCuDan extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return {
-    danhSachCuDan: state.residentReducer.danhSachCuDan,
-  };
+  //   return {
+  //     danhSachCuDan: state.residentReducer.danhSachCuDan,
+  //   };
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {
-    saveAccount: (data) => {
-      dispatch(actions.themTKCuDan(data));
-    },
-  };
+  //   return {
+  //     saveAccount: (data) => {
+  //       dispatch(actions.themTKCuDan(data));
+  //     },
+  //   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ThemTaiKhoanCuDan);
+export default connect(mapStateToProps, mapDispatchToProps)(ThemCanHo);

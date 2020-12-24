@@ -12,6 +12,9 @@ class Sidebar extends Component {
         <ul className="list-unstyled components">
           <p>Hello Admin!</p>
           <li className="active">
+            <a href="/admin/nha-quan-tri">Nhà quản trị</a>
+          </li>
+          <li>
             <a
               href="#homeSubmenu"
               data-toggle="collapse"
@@ -34,32 +37,7 @@ class Sidebar extends Component {
             </ul>
           </li>
           <li>
-            <a href="abc">About</a>
-            <a
-              href="#pageSubmenu"
-              data-toggle="collapse"
-              aria-expanded="false"
-              className="dropdown-toggle"
-            >
-              Pages
-            </a>
-            <ul className="collapse list-unstyled" id="pageSubmenu">
-              <li>
-                <a href="abc">Page 1</a>
-              </li>
-              <li>
-                <a href="abc">Page 2</a>
-              </li>
-              <li>
-                <a href="abc">Page 3</a>
-              </li>
-            </ul>
-          </li>
-          <li>
-            <a href="/admin/nha-quan-tri">Nhà quản trị</a>
-          </li>
-          <li>
-            <a href="abc">Contact</a>
+            <a href="/admin/can-ho">Căn hộ</a>
           </li>
         </ul>
       </nav>
