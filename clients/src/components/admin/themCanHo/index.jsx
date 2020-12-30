@@ -1,19 +1,26 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-//import * as actions from "../../../redux/actions/account";
+import * as actions from "../../../redux/actions/canHo";
 class ThemCanHo extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      opened: true,
-      taiKhoanCuDan: {
-        email: "",
-        password: "",
-        _idCuDan: "",
+      opened: false,
+      canHo: {
+        soCanHo: "",
+        soTang: "",
+        maToaNha: "",
+        chuSoHuu: "",
+        chieuDai: "",
+        chieuRong: "",
       },
       errors: {
-        email: "",
-        password: "",
+        soCanHo: "",
+        soTang: "",
+        maToaNha: "",
+        chuSoHuu: "",
+        chieuDai: "",
+        chieuRong: "",
       },
     };
   }
@@ -23,7 +30,7 @@ class ThemCanHo extends Component {
   _handlerChange = (e) => {
     const { name, value } = e.target;
     this.setState({
-      taiKhoanCuDan: { ...this.state.taiKhoanCuDan, [name]: value },
+      canHo: { ...this.state.canHo, [name]: value },
     });
   };
   _handleBlur = (e) => {
@@ -45,21 +52,44 @@ class ThemCanHo extends Component {
   // validation
   validateInput = (name, value) => {
     let errorsMsg = "";
-    if (name === "email") {
+    if (name === "soCanHo") {
       // eslint-disable-next-line
-      const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      const re = /^\d+$/;
       if (!value) {
-        errorsMsg = "Email không được bỏ trống";
+        errorsMsg = "Số căn hộ không được bỏ trống";
       } else if (!re.test(value)) {
-        errorsMsg = "Email không hợp lệ";
+        errorsMsg = "Số căn hộ không hợp lệ";
       }
     }
-    if (name === "password") {
-      const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,15}$/;
+    if (name === "soTang") {
+      // eslint-disable-next-line
+      const re = /^\d+$/;
       if (!value) {
-        errorsMsg = "Password không được bỏ trống";
+        errorsMsg = "Số tầng không được bỏ trống";
       } else if (!re.test(value)) {
-        errorsMsg = "Password không hợp lệ";
+        errorsMsg = "Số tầng không hợp lệ";
+      }
+    }
+    if (name === "maToaNha") {
+      // eslint-disable-next-line
+      if (!value) errorsMsg = "Mã tòa nhà không được bỏ trống";
+    }
+    if (name === "chieuDai") {
+      // eslint-disable-next-line
+      const re = /^\d+$/;
+      if (!value) {
+        errorsMsg = "Chiều dài không được bỏ trống";
+      } else if (!re.test(value)) {
+        errorsMsg = "Chiều dài không hợp lệ";
+      }
+    }
+    if (name === "chieuRong") {
+      // eslint-disable-next-line
+      const re = /^\d+$/;
+      if (!value) {
+        errorsMsg = "Chiều rộng không được bỏ trống";
+      } else if (!re.test(value)) {
+        errorsMsg = "Chiều rộng không hợp lệ";
       }
     }
     return errorsMsg;
@@ -73,17 +103,19 @@ class ThemCanHo extends Component {
   };
   renderDanhSachCuDan = () => {
     return this.props.danhSachCuDan?.map((item) => {
-      if (item.daCoTaiKhoan === false)
-        return (
-          <option key={item._id} value={item._id}>
-            {item.hoVaTenDem} {item.ten}
-          </option>
-        );
-      else return "";
+      return (
+        <option key={item._id} value={item._id}>
+          {item.hoVaTenDem} {item.ten}
+        </option>
+      );
     });
   };
-  themTaiKhoanCuDanToSV = () => {
-    this.props.saveAccount(this.state.taiKhoanCuDan);
+  themCanHoToSV = () => {
+    this.props.themCanHo(this.state.canHo);
+    console.log(this.state.canHo);
+  };
+  componentDidMount = () => {
+    this.props.getDanhSachCanHo();
   };
   renderForm = () => {
     if (this.state.opened === false) return "";
@@ -91,33 +123,46 @@ class ThemCanHo extends Component {
       return (
         <div className="addingResident card m-auto">
           <div className="card-body">
-            <h2 className="addingResident__title">Thêm tài khoản cư dân</h2>
+            <h2 className="addingResident__title">Thêm căn hộ</h2>
             <form onSubmit={this._handleSubmit}>
               <div className="row row-space">
-                <div className="col-6">
+                <div className="col-4">
                   <div className="input-group">
-                    <label htmlFor="">Email</label>
+                    <label htmlFor="">Số căn hộ</label>
                     <input
                       type="text"
                       className="addingResident__input"
-                      name="email"
+                      name="soCanHo"
                       onChange={this._handlerChange}
                       onBlur={this._handleBlur}
                     />
-                    {this.renderErrors(this.state.errors.email)}
+                    {this.renderErrors(this.state.errors.soCanHo)}
                   </div>
                 </div>
-                <div className="col-6">
+                <div className="col-4">
                   <div className="input-group">
-                    <label htmlFor="">Password</label>
+                    <label htmlFor="">Số tầng</label>
                     <input
-                      type="password"
+                      type="text"
                       className="addingResident__input"
-                      name="password"
+                      name="soTang"
                       onChange={this._handlerChange}
                       onBlur={this._handleBlur}
                     />
-                    {this.renderErrors(this.state.errors.password)}
+                    {this.renderErrors(this.state.errors.soTang)}
+                  </div>
+                </div>
+                <div className="col-4">
+                  <div className="input-group">
+                    <label htmlFor="">Mã tòa nhà</label>
+                    <input
+                      type="text"
+                      className="addingResident__input"
+                      name="maToaNha"
+                      onChange={this._handlerChange}
+                      onBlur={this._handleBlur}
+                    />
+                    {this.renderErrors(this.state.errors.maToaNha)}
                   </div>
                 </div>
               </div>
@@ -126,7 +171,7 @@ class ThemCanHo extends Component {
                   <div className="input-group">
                     <label htmlFor="">Danh sách cư dân</label>
                     <select
-                      name="_idCuDan"
+                      name="chuSoHuu"
                       onChange={this._handlerChange}
                       className="addingResident__input addingResident__input--select"
                     >
@@ -136,10 +181,38 @@ class ThemCanHo extends Component {
                   </div>
                 </div>
               </div>
+              <div className="row row-space">
+                <div className="col-6">
+                  <div className="input-group">
+                    <label htmlFor="">Chiều dài</label>
+                    <input
+                      type="text"
+                      className="addingResident__input"
+                      name="chieuDai"
+                      onChange={this._handlerChange}
+                      onBlur={this._handleBlur}
+                    />
+                    {this.renderErrors(this.state.errors.chieuDai)}
+                  </div>
+                </div>
+                <div className="col-6">
+                  <div className="input-group">
+                    <label htmlFor="">Chiều rộng</label>
+                    <input
+                      type="text"
+                      className="addingResident__input"
+                      name="chieuRong"
+                      onChange={this._handlerChange}
+                      onBlur={this._handleBlur}
+                    />
+                    {this.renderErrors(this.state.errors.chieuRong)}
+                  </div>
+                </div>
+              </div>
               <div className="pt-3">
                 <button
                   className="btn addingResident__btn"
-                  onClick={this.themTaiKhoanCuDanToSV}
+                  onClick={this.themCanHoToSV}
                 >
                   Thêm
                 </button>
@@ -156,7 +229,7 @@ class ThemCanHo extends Component {
           className="btn btn-primary"
           onClick={() => this.openForm("true")}
         >
-          + Thêm tài khoản cư dân
+          + Thêm căn hộ
         </button>
         {this.renderForm()}
       </div>
@@ -165,17 +238,20 @@ class ThemCanHo extends Component {
 }
 
 const mapStateToProps = (state) => {
-  //   return {
-  //     danhSachCuDan: state.residentReducer.danhSachCuDan,
-  //   };
+  return {
+    danhSachCuDan: state.residentReducer.danhSachCuDan,
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
-  //   return {
-  //     saveAccount: (data) => {
-  //       dispatch(actions.themTKCuDan(data));
-  //     },
-  //   };
+  return {
+    getDanhSachCanHo: () => {
+      dispatch(actions.saveListCanHO());
+    },
+    themCanHo: (data) => {
+      dispatch(actions.themCanHo(data));
+    },
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ThemCanHo);

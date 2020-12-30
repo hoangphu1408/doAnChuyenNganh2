@@ -12,7 +12,7 @@ class Sidebar extends Component {
         <ul className="list-unstyled components">
           <p>Hello Admin!</p>
           <li className="active">
-            <a href="/admin/nha-quan-tri">Nhà quản trị</a>
+            <Link to="/admin/nha-quan-tri">Nhà quản trị</Link>
           </li>
           <li>
             <a
@@ -37,7 +37,44 @@ class Sidebar extends Component {
             </ul>
           </li>
           <li>
-            <a href="/admin/can-ho">Căn hộ</a>
+            <Link to="/admin/can-ho">Căn hộ</Link>
+          </li>
+
+          <li>
+            <a
+              href="#chiPhi"
+              data-toggle="collapse"
+              aria-expanded="false"
+              className="dropdown-toggle"
+            >
+              Chi phí
+            </a>
+            <ul className="collapse list-unstyled" id="chiPhi">
+              <li>
+                <Link to="/admin/chi-phi/quan-ly">Quản lý phí dịch vụ</Link>
+              </li>
+              <li>
+                <a
+                  href="#thongBaoChiPhi"
+                  data-toggle="collapse"
+                  aria-expanded="false"
+                  className="dropdown-toggle"
+                >
+                  Thông báo phí dịch vụ
+                </a>
+                <ul className="collapse list-unstyled" id="thongBaoChiPhi">
+                  <li>
+                    <Link to="/admin/chi-phi/tien-nuoc">Tiền nước</Link>
+                  </li>
+                  <li>
+                    <Link to="/admin/chi-phi/tien-quan-ly">Tiền quản lý</Link>
+                  </li>
+                  <li>
+                    <Link to="/admin/chi-phi/tien-giu-xe">Tiền giữ xe</Link>
+                  </li>
+                </ul>
+              </li>
+            </ul>
           </li>
         </ul>
       </nav>

@@ -1,13 +1,16 @@
-const mongoose = require('mongoose');
-const Schema = require('mongoose').Schema;
+const mongoose = require("mongoose");
+const Schema = require("mongoose").Schema;
 
 const chiPhiSchema = new Schema({
-   tenLoaiChiPhi: {
-       type: String,
-   },
-   giaTien: {
-       type: Number
-   }
-})
+  maChiPhi: {
+    type: String,
+  },
+  tenLoaiChiPhi: {
+    type: String,
+  },
+  giaTien: {
+    type: Number,
+  },
+});
 
 module.exports = mongoose.model("chiPhi", chiPhiSchema);

@@ -1,7 +1,8 @@
 //import * as types from "../constants/actionType";
 import * as actions from "./isRegister";
+import * as types from "../constants/actionType";
 import history from "../../routes/history";
-import socket from "../../routes/socket";
+import createAction from "../actions/index";
 const axios = require("axios").default;
 
 export const actLogin = (data) => {
@@ -19,8 +20,7 @@ export const actLogin = (data) => {
         if (res.data.error_login !== undefined) {
           dispatch(actions.addErrMsg(res.data));
         } else {
-          // const socket = io('http://localhost:5000/');
-          socket.emit("set-email", res.data.account.email);
+          dispatch(createAction(types.ACCOUNT_LOGIN, res.data.account));
           dispatch(actions.reset());
           localStorage.setItem("isLogin", true);
           localStorage.setItem("token", res.data.signToken);

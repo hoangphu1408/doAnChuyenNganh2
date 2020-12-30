@@ -7,6 +7,7 @@
     "@testing-library/jest-dom": "^5.11.6",
     "@testing-library/react": "^11.2.2",
     "@testing-library/user-event": "^12.2.2",
+    "@tinymce/tinymce-react": "^3.8.4",
     "axios": "^0.21.0",
     "lodash": "^4.17.20",
     "moment": "^2.29.1",
