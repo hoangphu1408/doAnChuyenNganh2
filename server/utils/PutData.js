@@ -365,7 +365,21 @@ const chinhSuaPhieuNuoc = async (id, data, res) => {
     const updatePhieuNuoc = await PhieuThu.findOneAndUpdate({ _id: _id }, dt, {
       new: true,
     });
-    const phieuNuoc = await PhieuThu.findOne({ _id: _id });
+    const phieuNuoc = await PhieuThu.aggregate([
+      {
+        $match: {
+          _id: _id,
+        },
+      },
+      {
+        $lookup: {
+          from: "canhos",
+          localField: "id_canHo",
+          foreignField: "_id",
+          as: "CanHo",
+        },
+      },
+    ]);
     return res.status(200).json(phieuNuoc);
   } catch (err) {
     return res.status(400);
@@ -423,6 +437,43 @@ const chinhSuaPhieuGiuXe = async (id, data, res) => {
   }
 };
 
+/*
+============================================================================================
+                                    Check thanh toán
+============================================================================================
+*/
+
+const updateThanhToan = async (id, data, res) => {
+  try {
+    const { tinhTrang } = data;
+    const _id = mongoose.Types.ObjectId(id);
+    const dt = {
+      tinhTrang: tinhTrang,
+    };
+    const update = await PhieuThu.findOneAndUpdate({ _id: _id }, dt, {
+      new: true,
+    });
+    const phieu = await PhieuThu.aggregate([
+      {
+        $match: {
+          _id: _id,
+        },
+      },
+      {
+        $lookup: {
+          from: "canhos",
+          localField: "id_canHo",
+          foreignField: "_id",
+          as: "CanHo",
+        },
+      },
+    ]);
+    return res.status(200).json(phieu);
+  } catch (err) {
+    return res.status(400).json(err);
+  }
+};
+
 module.exports = {
   suaCuDan,
   suaTaiKhoan,
@@ -433,4 +484,5 @@ module.exports = {
   chinhSuaChiPhi,
   chinhSuaPhieuNuoc,
   chinhSuaPhieuGiuXe,
+  updateThanhToan,
 };

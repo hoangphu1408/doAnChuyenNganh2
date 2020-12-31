@@ -263,10 +263,10 @@ const themThongBao = async (data, res) => {
 
 const themPhiDichVu = async (data, res) => {
   try {
-    const { maChiPhi, tenChiPhi, giaTien } = data;
+    const { maChiPhi, tenLoaiChiPhi, giaTien } = data;
     const newChiPhi = new ChiPhi({
       maChiPhi: maChiPhi,
-      tenLoaiChiPhi: tenChiPhi,
+      tenLoaiChiPhi: tenLoaiChiPhi,
       giaTien: giaTien,
     });
     await newChiPhi.save();
@@ -285,6 +285,7 @@ const themPhiDichVu = async (data, res) => {
 const themPhieuThuNuoc = async (data, res) => {
   try {
     const { id_canHo, chiSoMoi, chiSoCu } = data;
+    if (id_canHo === "") return res.status(400);
     let _id_canHo = mongoose.Types.ObjectId(id_canHo);
     let tienDM1 = 0,
       tienDM2 = 0,
@@ -324,6 +325,9 @@ const themPhieuThuNuoc = async (data, res) => {
       chiSoMoi: Number(chiSoMoi),
       chiSoCu: Number(chiSoCu),
       tieuThu: tieuThu,
+      dinhMuc1: dm1,
+      dinhMuc2: dm2,
+      dinhMuc3: dm3,
       tienDinhMuc1: tienDM1,
       tienDinhMuc2: tienDM2,
       tienDinhMuc3: tienDM3,
@@ -339,7 +343,22 @@ const themPhieuThuNuoc = async (data, res) => {
     });
 
     await newPhieuNuoc.save();
-    return res.status(200).json(newPhieuNuoc);
+    const phieuNuoc = await PhieuThu.aggregate([
+      {
+        $match: {
+          _id: newPhieuNuoc._id,
+        },
+      },
+      {
+        $lookup: {
+          from: "canhos",
+          localField: "id_canHo",
+          foreignField: "_id",
+          as: "CanHo",
+        },
+      },
+    ]);
+    return res.status(200).json(phieuNuoc);
   } catch (err) {
     return res.status(400).json(err);
   }

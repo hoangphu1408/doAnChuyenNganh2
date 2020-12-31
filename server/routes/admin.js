@@ -113,19 +113,19 @@ router.post("/api/dangThongBao", async (req, res) => {
 ============================================================================================
 */
 
-router.get("/api/chi-phi/layDanhSachChiPhi", async (req, res) => {
+router.get("/api/chi-phi", async (req, res) => {
   return await getData.getChiPhi(res);
 });
 
-router.post("/api/chi-phi/themChiPhi", async (req, res) => {
+router.post("/api/chi-phi", async (req, res) => {
   return await postData.themPhiDichVu(req.body.data, res);
 });
 
-router.put("/api/chi-phi/chinhSuaChiPhi", async (req, res) => {
+router.put("/api/chi-phi", async (req, res) => {
   return await putData.chinhSuaChiPhi(req.query.id, req.body.data, res);
 });
 
-router.delete("/api/chi-phi/xoaChiPhi", async (req, res) => {
+router.delete("/api/chi-phi", async (req, res) => {
   return await deleteData.xoaChiPhi(req.query.id, res);
 });
 
@@ -135,7 +135,7 @@ router.delete("/api/chi-phi/xoaChiPhi", async (req, res) => {
 ============================================================================================
 */
 
-router.get("/api/phieu-thu/tienNuoc/layDanhSach", async (req, res) => {
+router.get("/api/phieu-thu/tienNuoc", async (req, res) => {
   return await getData.getPhieuNuoc(res);
 });
 
@@ -143,11 +143,11 @@ router.post("/api/phieu-thu/tienNuoc", async (req, res) => {
   return await postData.themPhieuThuNuoc(req.body.data, res);
 });
 
-router.put("/api/phieu-thu/tienNuoc/chinhSua", async (req, res) => {
+router.put("/api/phieu-thu/tienNuoc", async (req, res) => {
   return await putData.chinhSuaPhieuNuoc(req.query.id, req.body.data, res);
 });
 
-router.delete("/api/phieu-thu/tienNuoc/xoaPhieuNuoc", async (req, res) => {
+router.delete("/api/phieu-thu/tienNuoc", async (req, res) => {
   return await deleteData.xoaPhieuNuoc(req.query.id, res);
 });
 
@@ -157,7 +157,7 @@ router.delete("/api/phieu-thu/tienNuoc/xoaPhieuNuoc", async (req, res) => {
 ============================================================================================
 */
 
-router.get("/api/phieu-thu/tienGiuXe/layDanhSach", async (req, res) => {
+router.get("/api/phieu-thu/tienGiuXe", async (req, res) => {
   return await getData.getPhieuGiuXe(res);
 });
 
@@ -165,11 +165,11 @@ router.post("/api/phieu-thu/tienGiuXe", async (req, res) => {
   return await postData.themPhieuThuGiuXe(req.body.data, res);
 });
 
-router.put("/api/phieu-thu/tienGiuXe/chinhSua", async (req, res) => {
+router.put("/api/phieu-thu/tienGiuXe", async (req, res) => {
   return await putData.chinhSuaPhieuGiuXe(req.query.id, req.body.data, res);
 });
 
-router.delete("/api/phieu-thu/tienGiuXe/xoaPhieuGiuXe", async (req, res) => {
+router.delete("/api/phieu-thu/tienGiuXe", async (req, res) => {
   return await deleteData.xoaPhieuGiuXe(req.query.id, res);
 });
 
@@ -179,7 +179,7 @@ router.delete("/api/phieu-thu/tienGiuXe/xoaPhieuGiuXe", async (req, res) => {
 ============================================================================================
 */
 
-router.get("/api/phieu-thu/tienQuanLy/layDanhSach", async (req, res) => {
+router.get("/api/phieu-thu/tienQuanLy", async (req, res) => {
   return await getData.getPhieuQL(res);
 });
 
@@ -187,8 +187,18 @@ router.post("/api/phieu-thu/tienQuanLy", async (req, res) => {
   return await postData.themPhieuQuanLy(req.body.data, res);
 });
 
-router.delete("/api/phieu-thu/tienQuanLy/xoaPhieuQuanLy", async (req, res) => {
+router.delete("/api/phieu-thu/tienQuanLy", async (req, res) => {
   return await deleteData.xoaPhieuQL(req.query.id, res);
+});
+
+/*
+============================================================================================
+                                    Check thanh toán
+============================================================================================
+*/
+
+router.put("/api/phieu-thu/checkThanhToan", async (req, res) => {
+  return await putData.updateThanhToan(req.query.id, req.body.data, res);
 });
 
 /*
@@ -198,7 +208,15 @@ router.delete("/api/phieu-thu/tienQuanLy/xoaPhieuQuanLy", async (req, res) => {
 */
 
 router.get("/api/thong-ke/tienXeTheoTuan", async (req, res) => {
-  return await getData.getTienXeTheoTuan(res);
+  return await getData.getTienXeTheoTuan(req.query.week, res);
+});
+
+router.get("/api/thong-ke/tienXeTheoThang", async (req, res) => {
+  return await getData.getTienXeTheoThang(req.query.month, res);
+});
+
+router.get("/api/thong-ke/tienXeTheoNam", async (req, res) => {
+  return await getData.getTienXeTheoNam(req.query.year, res);
 });
 
 module.exports = router;

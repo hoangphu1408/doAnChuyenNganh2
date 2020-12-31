@@ -1,0 +1,10 @@
+.table_chiPhi{
+    border: 1px solid black;
+    text-align: center;
+}
+.table_chiPhi td{
+    padding: 10px 5px;
+}
+.table_chiPhi th{
+    padding: 20px 10px;
+}

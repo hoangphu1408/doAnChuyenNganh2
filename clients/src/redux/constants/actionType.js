@@ -42,3 +42,34 @@ export const SAVE_LIST_THONG_BAO = "SAVE_LIST_THONG_BAO";
 export const ADD_THONG_BAO = "ADD_THONG_BAO";
 export const EDIT_THONG_BAO = "EDIT_THONG_BAO";
 export const DELETE_THONG_BAO = "DELETE_THONG_BAO";
+
+// Chi phí
+export const SAVE_LIST_CHI_PHI = "SAVE_LIST_CHI_PHI";
+export const ADD_CHI_PHI = "ADD_CHI_PHI";
+export const EDIT_CHI_PHI = "EDIT_CHI_PHI";
+export const DELETE_CHI_PHI = "DELETE_CHI_PHI";
+
+// Phieu nuoc
+export const SAVE_LIST_PHIEU_NUOC = "SAVE_LIST_PHIEU_NUOC";
+export const ADD_PHIEU_NUOC = "ADD_PHIEU_NUOC";
+export const EDIT_PHIEU_NUOC = "EDIT_PHIEU_NUOC";
+export const DELETE_PHIEU_NUOC = "DELETE_PHIEU_NUOC";
+
+// Phieu giu xe
+
+export const SAVE_LIST_GIU_XE = "SAVE_LIST_GIU_XE";
+export const ADD_GIU_XE = "ADD_GIU_XE";
+export const EDIT_GIU_XE = "EDIT_GIU_XE";
+export const DELETE_GIU_XE = "DELETE_GIU_XE";
+
+// Phieu quan ly
+
+export const SAVE_LIST_QUAN_LY = "SAVE_LIST_QUAN_LY";
+export const ADD_QUAN_LY = "ADD_QUAN_LY";
+export const EDIT_QUAN_LY = "EDIT_QUAN_LY";
+export const DELETE_QUAN_LY = "DELETE_QUAN_LY";
+
+// Check thanh toan
+export const CHECK_PHIEU_NUOC = "CHECK_PHIEU_NUOC";
+export const CHECK_GIU_XE = "CHECK_GIU_XE";
+export const CHECK_QUAN_LY = "CHECK_QUAN_LY";
