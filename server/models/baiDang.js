@@ -16,6 +16,8 @@ const baiDangSchema = new Schema({
     default: "Default",
     enum: ["Thông báo", "Default"],
   },
+  likes: {},
+  comments: {},
   tinhTrang: {
     type: Boolean,
   },
