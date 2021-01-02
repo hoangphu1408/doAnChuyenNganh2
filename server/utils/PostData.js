@@ -408,7 +408,22 @@ const themPhieuThuGiuXe = async (data, res) => {
       ngayLapPhieu: new Date().toISOString(),
     });
     await newPhieuGiuXe.save();
-    return res.status(200).json(newPhieuGiuXe);
+    const phieuGiuXe = await PhieuThu.aggregate([
+      {
+        $match: {
+          _id: newPhieuGiuXe._id,
+        },
+      },
+      {
+        $lookup: {
+          from: "canhos",
+          localField: "id_canHo",
+          foreignField: "_id",
+          as: "CanHo",
+        },
+      },
+    ]);
+    return res.status(200).json(phieuGiuXe);
   } catch (err) {
     return res.status(400).json(err);
   }
@@ -430,6 +445,8 @@ const themPhieuQuanLy = async (data, res) => {
     });
     const tongTien = tienQL[0].giaTien * canHo.dienTich;
     const noiDung = {
+      chieuRong: canHo.chieuRong,
+      chieuDai: canHo.chieuDai,
       dienTich: canHo.dienTich,
     };
     const newPhieuQL = new PhieuThu({
@@ -441,7 +458,22 @@ const themPhieuQuanLy = async (data, res) => {
       ngayLapPhieu: new Date().toISOString(),
     });
     await newPhieuQL.save();
-    return res.status(200).json(newPhieuQL);
+    const phieuQuanLy = await PhieuThu.aggregate([
+      {
+        $match: {
+          _id: newPhieuQL._id,
+        },
+      },
+      {
+        $lookup: {
+          from: "canhos",
+          localField: "id_canHo",
+          foreignField: "_id",
+          as: "CanHo",
+        },
+      },
+    ]);
+    return res.status(200).json(phieuQuanLy);
   } catch (err) {
     return res.status(400).json(err);
   }

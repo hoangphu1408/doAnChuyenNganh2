@@ -3,7 +3,9 @@ import { Switch, Route } from "react-router-dom";
 import history from "../../../routes/history";
 import CanHo from "../canHo";
 import PhiDichVu from "../phiDichVu";
+import PhieuGiuXe from "../phieuGiuXe";
 import PhieuNuoc from "../phieuNuoc";
+import PhieuQuanLy from "../phieuQuanLy";
 import Resident from "../resident";
 import TaiKhoanQuanTri from "../taiKhoanQuanTri";
 import ThongBao from "../thongBao";
@@ -83,6 +85,12 @@ class Dashboard extends Component {
           </Route>
           <Route expact path="/admin/chi-phi/tien-nuoc">
             <PhieuNuoc />
+          </Route>
+          <Route expact path="/admin/chi-phi/tien-quan-ly">
+            <PhieuQuanLy />
+          </Route>
+          <Route exact path="/admin/chi-phi/tien-giu-xe">
+            <PhieuGiuXe />
           </Route>
         </Switch>
       </div>

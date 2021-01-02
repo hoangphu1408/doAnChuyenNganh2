@@ -353,6 +353,9 @@ const chinhSuaPhieuNuoc = async (id, data, res) => {
       chiSoMoi: Number(chiSoMoi),
       chiSoCu: Number(chiSoCu),
       tieuThu: tieuThu,
+      dinhMuc1: dm1,
+      dinhMuc2: dm2,
+      dinhMuc3: dm3,
       tienDinhMuc1: tienDM1,
       tienDinhMuc2: tienDM2,
       tienDinhMuc3: tienDM3,
@@ -430,7 +433,21 @@ const chinhSuaPhieuGiuXe = async (id, data, res) => {
     const updatePhiGiuXe = await PhieuThu.findOneAndUpdate({ _id: _id }, dt, {
       new: true,
     });
-    const phieuGiuXe = await PhieuThu.findOne({ _id: _id });
+    const phieuGiuXe = await PhieuThu.aggregate([
+      {
+        $match: {
+          _id: _id,
+        },
+      },
+      {
+        $lookup: {
+          from: "canhos",
+          localField: "id_canHo",
+          foreignField: "_id",
+          as: "CanHo",
+        },
+      },
+    ]);
     return res.status(200).json(phieuGiuXe);
   } catch (err) {
     return res.status(400).json(err);

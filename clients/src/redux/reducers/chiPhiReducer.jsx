@@ -72,6 +72,67 @@ export const chiPhiReducer = (state = initialState, action) => {
         return item;
       });
       return Object.assign({}, state, (state.phieuNuoc = checkPhieuNuoc));
+    /*===================================================================
+                              Phieu giu xe
+    ===================================================================*/
+    case types.SAVE_LIST_GIU_XE:
+      return Object.assign({}, state, (state.phieuGiuXe = action.payload));
+    case types.ADD_GIU_XE:
+      return Object.assign(
+        {},
+        state,
+        (state.phieuGiuXe = [...state.phieuGiuXe, action.payload])
+      );
+    case types.EDIT_GIU_XE:
+      let dtPGX = action.payload;
+      let editPhieuGiuXe = state.phieuGiuXe.map((item) => {
+        if (item._id === dtPGX._id) {
+          item.id_canHo = dtPGX.id_canHo;
+          item.noiDung = dtPGX.noiDung;
+          item.tongTien = dtPGX.tongTien;
+        }
+        return item;
+      });
+      return Object.assign({}, state, (state.phieuGiuXe = editPhieuGiuXe));
+    case types.DELETE_GIU_XE:
+      let deletePhieuGiuXe = state.phieuGiuXe.filter(
+        (item) => item._id !== action.payload._id
+      );
+      return Object.assign({}, state, (state.phieuGiuXe = deletePhieuGiuXe));
+    case types.CHECK_GIU_XE:
+      let dataCheckGX = action.payload;
+      let checkPhieuGiuXe = state.phieuGiuXe.map((item) => {
+        if (item._id === dataCheckGX._id) {
+          item.tinhTrang = dataCheckGX.tinhTrang;
+        }
+        return item;
+      });
+      return Object.assign({}, state, (state.phieuGiuXe = checkPhieuGiuXe));
+    /*===================================================================
+                              Phieu quan ly
+    ===================================================================*/
+    case types.SAVE_LIST_QUAN_LY:
+      return Object.assign({}, state, (state.phieuQuanLy = action.payload));
+    case types.ADD_QUAN_LY:
+      return Object.assign(
+        {},
+        state,
+        (state.phieuQuanLy = [...state.phieuQuanLy, action.payload])
+      );
+    case types.DELETE_QUAN_LY:
+      let deletePhieuQuanLy = state.phieuQuanLy.filter(
+        (item) => item._id !== action.payload._id
+      );
+      return Object.assign({}, state, (state.phieuQuanLy = deletePhieuQuanLy));
+    case types.CHECK_QUAN_LY:
+      let dataCheckQL = action.payload;
+      let checkPhieuQuanLy = state.phieuQuanLy.map((item) => {
+        if (item._id === dataCheckQL._id) {
+          item.tinhTrang = dataCheckQL.tinhTrang;
+        }
+        return item;
+      });
+      return Object.assign({}, state, (state.phieuQuanLy = checkPhieuQuanLy));
     default:
       return state;
   }

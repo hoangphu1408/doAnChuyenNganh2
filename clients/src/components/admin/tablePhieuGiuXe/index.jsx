@@ -4,8 +4,7 @@ import { orderBy } from "lodash";
 import Popup from "reactjs-popup";
 import ReactDatatable from "@ashvin27/react-datatable";
 import * as actions from "../../../redux/actions/chiPhi";
-import "./styles.css";
-class TablePhieuNuoc extends Component {
+class TablePhieuGiuXe extends Component {
   constructor(props) {
     super(props);
     this.columns = [
@@ -31,7 +30,7 @@ class TablePhieuNuoc extends Component {
               <Popup
                 onOpen={() => {
                   this.setState({
-                    infoPhieuNuoc: {
+                    infoPhieuGiuXe: {
                       _id: record._id,
                       noiDung: record.noiDung,
                       tinhTrang: record.tinhTrang,
@@ -124,11 +123,10 @@ class TablePhieuNuoc extends Component {
       },
     };
     this.state = {
-      loading: true,
       records: {},
       opened: false,
       indexEdit: "",
-      infoPhieuNuoc: {
+      infoPhieuGiuXe: {
         _id: "",
         noiDung: "",
         tinhTrang: "",
@@ -136,10 +134,10 @@ class TablePhieuNuoc extends Component {
         _canHo: "",
         ngayLapPhieu: "",
       },
-      giaTriDM: {
-        dinhMuc1: 0,
-        dinhMuc2: 0,
-        dinhMuc3: 0,
+      giaTienXe: {
+        xeOto: 0,
+        xeMay: 0,
+        xeDap: 0,
       },
     };
   }
@@ -150,7 +148,7 @@ class TablePhieuNuoc extends Component {
       return this.setState({
         indexEdit: index,
         opened: value,
-        infoPhieuNuoc: {
+        infoPhieuGiuXe: {
           _id: record._id,
           noiDung: record.noiDung,
           tinhTrang: record.tinhTrang,
@@ -163,7 +161,7 @@ class TablePhieuNuoc extends Component {
     } else if (value === this.state.opened && index === this.state.indexEdit)
       return this.setState({
         opened: !value,
-        infoPhieuNuoc: {
+        infoPhieuGiuXe: {
           _id: "",
           noiDung: "",
           tinhTrang: "",
@@ -176,7 +174,7 @@ class TablePhieuNuoc extends Component {
     else
       return this.setState({
         opened: value,
-        infoPhieuNuoc: {
+        infoPhieuGiuXe: {
           _id: record._id,
           noiDung: record.noiDung,
           tinhTrang: record.tinhTrang,
@@ -188,57 +186,53 @@ class TablePhieuNuoc extends Component {
       });
   };
   renderDetail = () => {
-    const { infoPhieuNuoc } = this.state;
+    const { infoPhieuGiuXe, giaTienXe } = this.state;
     return (close) => (
       <div className="modalBill">
         <div className="modal-content">
           <div className="modal-header">
             <h5 className="modal-title" id="exampleModalLongTitle">
-              Chi tiết phiếu thu tiền nước
+              Chi tiết phiếu thu tiền giữ xe
             </h5>
           </div>
           <div className="modal-body">
-            <b>Căn hộ: {infoPhieuNuoc._canHo}</b>
+            <b>Căn hộ: {infoPhieuGiuXe._canHo}</b>
             <br />
-            <b>Ngày lập phiếu: {infoPhieuNuoc.ngayLapPhieu} </b>
+            <b>Ngày lập phiếu: {infoPhieuGiuXe.ngayLapPhieu} </b>
             <table className="table_chiPhi mt-2">
               <thead>
                 <tr>
-                  <th>Chỉ số mới</th>
-                  <th>Chỉ số cũ</th>
-                  <th colSpan="2">Tiêu thụ</th>
+                  <th>Loại xe</th>
+                  <th>Số lượng</th>
+                  <th>Đơn giá</th>
+                  <th>Thành tiền</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td>{infoPhieuNuoc.noiDung.chiSoMoi}</td>
-                  <td>{infoPhieuNuoc.noiDung.chiSoCu}</td>
-                  <td colSpan="2">{infoPhieuNuoc.noiDung.tieuThu}</td>
+                  <td>Xe ôtô</td>
+                  <td>{infoPhieuGiuXe.noiDung.oto}</td>
+                  <td>{giaTienXe.xeOto}</td>
+                  <td>{infoPhieuGiuXe.noiDung.tienOto} vnđ</td>
                 </tr>
                 <tr>
-                  <td>Định mức 1</td>
-                  <td>{infoPhieuNuoc.noiDung.dinhMuc1}</td>
-                  <td rowSpan="1">1</td>
-                  <td rowSpan="1">{infoPhieuNuoc.noiDung.tienDinhMuc1} vnđ</td>
+                  <td>Xe máy</td>
+                  <td>{infoPhieuGiuXe.noiDung.xeMay}</td>
+                  <td>{giaTienXe.xeMay}</td>
+                  <td>{infoPhieuGiuXe.noiDung.tienXeMay} vnđ</td>
                 </tr>
                 <tr>
-                  <td>Định mức 2</td>
-                  <td>{infoPhieuNuoc.noiDung.dinhMuc2}</td>
-                  <td rowSpan="1">1</td>
-                  <td rowSpan="1">{infoPhieuNuoc.noiDung.tienDinhMuc2} vnđ</td>
-                </tr>
-                <tr>
-                  <td>Định mức 3</td>
-                  <td>{infoPhieuNuoc.noiDung.dinhMuc3}</td>
-                  <td rowSpan="1">1</td>
-                  <td rowSpan="1">{infoPhieuNuoc.noiDung.tienDinhMuc3} vnđ</td>
+                  <td>Xe đạp</td>
+                  <td>{infoPhieuGiuXe.noiDung.xeDap}</td>
+                  <td>{giaTienXe.xeOto}</td>
+                  <td>{infoPhieuGiuXe.noiDung.tienXeDap} vnđ</td>
                 </tr>
                 <tr>
                   <td colSpan="3" style={{ textAlign: "left" }}>
                     <b>Tổng tiền</b>
                   </td>
                   <td colSpan="1">
-                    <b>{infoPhieuNuoc.tongTien} vnđ</b>
+                    <b>{infoPhieuGiuXe.tongTien} vnđ</b>
                   </td>
                 </tr>
               </tbody>
@@ -260,15 +254,14 @@ class TablePhieuNuoc extends Component {
     );
   };
   deleteRecord = (record, index) => {
-    this.props.deletePhieuNuoc(record._id);
+    this.props.deletePhieuGiuXe(record._id);
   };
   checkTT = (record, index) => {
     const dt = {
       _id: record._id,
       tinhTrang: record.tinhTrang,
     };
-    console.log(dt);
-    this.props.checkPhieuNuoc(dt);
+    this.props.checkPhieuGiuXe(dt);
   };
   onSort = (column, records, sortOrder) => {
     return orderBy(records, [column], [sortOrder]);
@@ -279,9 +272,9 @@ class TablePhieuNuoc extends Component {
   _handlerChange = (e) => {
     const { name, value } = e.target;
     this.setState({
-      infoPhieuNuoc: {
-        ...this.state.infoPhieuNuoc,
-        noiDung: { ...this.state.infoPhieuNuoc.noiDung, [name]: value },
+      infoPhieuGiuXe: {
+        ...this.state.infoPhieuGiuXe,
+        noiDung: { ...this.state.infoPhieuGiuXe.noiDung, [name]: value },
       },
     });
   };
@@ -295,26 +288,22 @@ class TablePhieuNuoc extends Component {
     });
   };
   componentDidMount = () => {
-    this.props.getListPhieuNuoc();
+    this.props.getListPhieuGiuXe();
     this.props.getListChiPhi();
-    setTimeout(() => {
-      this.setState({
-        loading: false,
-      });
-    }, 5000);
   };
-  chinhSuaPhieuNuoc = () => {
-    const { infoPhieuNuoc } = this.state;
+  chinhSuaPhieuGiuXe = () => {
+    const { infoPhieuGiuXe } = this.state;
     const dt = {
-      _id: infoPhieuNuoc._id,
-      id_canHo: infoPhieuNuoc.id_canHo,
-      chiSoCu: infoPhieuNuoc.noiDung.chiSoCu,
-      chiSoMoi: infoPhieuNuoc.noiDung.chiSoMoi,
+      _id: infoPhieuGiuXe._id,
+      id_canHo: infoPhieuGiuXe.id_canHo,
+      xeOto: infoPhieuGiuXe.noiDung.oto,
+      xeMay: infoPhieuGiuXe.noiDung.xeMay,
+      xeDap: infoPhieuGiuXe.noiDung.xeDap,
     };
-    this.props.editPhieuNuoc(dt);
+    this.props.editPhieuGiuXe(dt);
   };
   renderEdit = () => {
-    let { infoPhieuNuoc } = this.state;
+    let { infoPhieuGiuXe } = this.state;
     if (this.state.opened === true) {
       return (
         <div className="addingResident card m-auto">
@@ -328,7 +317,7 @@ class TablePhieuNuoc extends Component {
                     <select
                       name="id_canHo"
                       onChange={this._handlerChange}
-                      value={infoPhieuNuoc.id_canHo}
+                      value={infoPhieuGiuXe.id_canHo}
                       className="addingResident__input addingResident__input--select"
                     >
                       <option value="">Choose this</option>
@@ -338,27 +327,45 @@ class TablePhieuNuoc extends Component {
                 </div>
               </div>
               <div className="row row-space">
-                <div className="col-6">
+                <div className="col-4">
                   <div className="input-group">
-                    <label htmlFor="">Chỉ số mới</label>
+                    <label htmlFor="">Xe ôtô</label>
                     <input
-                      type="text"
+                      type="number"
+                      min="0"
+                      value={infoPhieuGiuXe.noiDung.oto}
                       className="addingResident__input"
-                      name="chiSoMoi"
-                      value={infoPhieuNuoc.noiDung.chiSoMoi}
+                      name="xeOto"
                       onChange={this._handlerChange}
+                      onBlur={this._handleBlur}
                     />
                   </div>
                 </div>
-                <div className="col-6">
+                <div className="col-4">
                   <div className="input-group">
-                    <label htmlFor="">Chỉ số cũ</label>
+                    <label htmlFor="">Xe máy</label>
                     <input
-                      type="text"
+                      type="number"
+                      min="0"
+                      value={infoPhieuGiuXe.noiDung.xeMay}
                       className="addingResident__input"
-                      name="chiSoCu"
-                      value={infoPhieuNuoc.noiDung.chiSoCu}
+                      name="xeMay"
                       onChange={this._handlerChange}
+                      onBlur={this._handleBlur}
+                    />
+                  </div>
+                </div>
+                <div className="col-4">
+                  <div className="input-group">
+                    <label htmlFor="">Xe đạp</label>
+                    <input
+                      type="number"
+                      className="addingResident__input"
+                      min="0"
+                      value={infoPhieuGiuXe.noiDung.xeDap}
+                      name="xeDap"
+                      onChange={this._handlerChange}
+                      onBlur={this._handleBlur}
                     />
                   </div>
                 </div>
@@ -366,7 +373,7 @@ class TablePhieuNuoc extends Component {
               <div className="pt-3">
                 <button
                   className="btn addingResident__btn"
-                  onClick={this.chinhSuaPhieuNuoc}
+                  onClick={this.chinhSuaPhieuGiuXe}
                 >
                   Sửa phiếu
                 </button>
@@ -379,18 +386,15 @@ class TablePhieuNuoc extends Component {
   };
 
   render() {
-    let { danhSachPhieuNuoc } = this.props;
-    console.log(this.props.danhSachChiPhi);
-    console.log(danhSachPhieuNuoc);
+    let { danhSachPhieuGiuXe } = this.props;
     return (
       <div>
         {this.renderEdit()}
         <ReactDatatable
           config={this.config}
-          records={danhSachPhieuNuoc}
+          records={danhSachPhieuGiuXe}
           columns={this.columns}
           onSort={this.onSort}
-          loading={this.state.loading}
           key
         />
       </div>
@@ -400,7 +404,7 @@ class TablePhieuNuoc extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    danhSachPhieuNuoc: state.chiPhiReducer.phieuNuoc,
+    danhSachPhieuGiuXe: state.chiPhiReducer.phieuGiuXe,
     danhSachCanHo: state.canHoReducer.danhSachCanHo,
     danhSachChiPhi: state.chiPhiReducer.chiPhi,
   };
@@ -411,19 +415,19 @@ const mapDispatchToProps = (dispatch) => {
     getListChiPhi: () => {
       dispatch(actions.getDanhSachChiPhi());
     },
-    getListPhieuNuoc: () => {
-      dispatch(actions.getDanhSachPhieuNuoc());
+    getListPhieuGiuXe: () => {
+      dispatch(actions.getDanhSachPhieuGiuXe());
     },
-    editPhieuNuoc: (data) => {
-      dispatch(actions.suaPhieuNuoc(data));
+    editPhieuGiuXe: (data) => {
+      dispatch(actions.suaPhieuGiuXe(data));
     },
-    deletePhieuNuoc: (data) => {
-      dispatch(actions.xoaPhieuNuoc(data));
+    deletePhieuGiuXe: (data) => {
+      dispatch(actions.xoaPhieuGiuXe(data));
     },
-    checkPhieuNuoc: (data) => {
-      dispatch(actions.checkThanhToanPN(data));
+    checkPhieuGiuXe: (data) => {
+      dispatch(actions.checkThanhToanPGX(data));
     },
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TablePhieuNuoc);
+export default connect(mapStateToProps, mapDispatchToProps)(TablePhieuGiuXe);
