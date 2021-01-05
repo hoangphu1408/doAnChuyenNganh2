@@ -39,7 +39,9 @@ class Sidebar extends Component {
           <li>
             <Link to="/admin/can-ho">Căn hộ</Link>
           </li>
-
+          <li>
+            <Link to="/admin/thong-bao">Thông báo</Link>
+          </li>
           <li>
             <a
               href="#chiPhi"
@@ -71,6 +73,99 @@ class Sidebar extends Component {
                   </li>
                   <li>
                     <Link to="/admin/chi-phi/tien-giu-xe">Tiền giữ xe</Link>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a
+              href="#thongKe"
+              data-toggle="collapse"
+              aria-expanded="false"
+              className="dropdown-toggle"
+            >
+              Thống kê
+            </a>
+            <ul className="collapse list-unstyled" id="thongKe">
+              <li>
+                <a
+                  href="#thongKeTienQuanLy"
+                  data-toggle="collapse"
+                  aria-expanded="false"
+                  className="dropdown-toggle"
+                >
+                  Thống kê tiền quản lý
+                </a>
+                <ul className="collapse list-unstyled" id="thongKeTienQuanLy">
+                  <li>
+                    <Link to="/admin/thong-ke/tien-quan-ly/theo-tuan">
+                      Thống kê theo tuần
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/admin/thong-ke/tien-quan-ly/theo-thang">
+                      Thống kê theo tháng
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/admin/thong-ke/tien-quan-ly/theo-nam">
+                      Thống kê theo năm
+                    </Link>
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <a
+                  href="#thongKeTienGiuXe"
+                  data-toggle="collapse"
+                  aria-expanded="false"
+                  className="dropdown-toggle"
+                >
+                  Thống kê tiền giữ xe
+                </a>
+                <ul className="collapse list-unstyled" id="thongKeTienGiuXe">
+                  <li>
+                    <Link to="/admin/thong-ke/tien-giu-xe/theo-tuan">
+                      Thống kê theo tuần
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/admin/thong-ke/tien-giu-xe/theo-thang">
+                      Thống kê theo tháng
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/admin/thong-ke/tien-giu-xe/theo-nam">
+                      Thống kê theo năm
+                    </Link>
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <a
+                  href="#thongKeTienNuoc"
+                  data-toggle="collapse"
+                  aria-expanded="false"
+                  className="dropdown-toggle"
+                >
+                  Thống kê tiền nước
+                </a>
+                <ul className="collapse list-unstyled" id="thongKeTienNuoc">
+                  <li>
+                    <Link to="/admin/thong-ke/tien-nuoc/theo-tuan">
+                      Thống kê theo tuần
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/admin/thong-ke/tien-nuoc/theo-thang">
+                      Thống kê theo tháng
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/admin/thong-ke/tien-nuoc/theo-nam">
+                      Thống kê theo năm
+                    </Link>
                   </li>
                 </ul>
               </li>

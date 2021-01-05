@@ -5,6 +5,8 @@ const BaiDang = require("../models/baiDang");
 const ChiPhi = require("../models/chiPhi");
 const PhieuThu = require("../models/phieuThuTien");
 const moment = require("moment");
+const mongoose = require("mongoose");
+const canHo = require("../models/canHo");
 
 const getResident = async (res) => {
   const resident = await Resident.find();
@@ -213,53 +215,39 @@ const getPhieuQL = async (res) => {
 const getTienXeTheoTuan = async (week, res) => {
   try {
     const phieuTienXe = await PhieuThu.find({ loai_phieuThu: "parking_fee" });
-    let finalArr = [];
-    let t2 = [],
-      t3 = [],
-      t4 = [],
-      t5 = [],
-      t6 = [],
-      t7 = [],
-      cn = [];
+    let finalArr = {
+      t2: [],
+      t3: [],
+      t4: [],
+      t5: [],
+      t6: [],
+      t7: [],
+      cn: [],
+    };
     phieuTienXe.filter((item) => {
       let date = new Date(item.ngayLapPhieu).getTime();
       let isWeek = moment(date).isoWeek();
       let weekDay = moment(date).month();
       if (week == isWeek) {
         switch (weekDay) {
+          case 0:
+            return finalArr.t2.push(Object.assign({}, item._doc));
           case 1:
-            return t2.push(
-              Object.assign({}, item._doc, (item.loai_phieuThu = 1))
-            );
+            return finalArr.t3.push(Object.assign({}, item._doc));
           case 2:
-            return t3.push(
-              Object.assign({}, item._doc, (item.loai_phieuThu = 2))
-            );
+            return finalArr.t4.push(Object.assign({}, item._doc));
           case 3:
-            return t4.push(
-              Object.assign({}, item._doc, (item.loai_phieuThu = 3))
-            );
+            return finalArr.t5.push(Object.assign({}, item._doc));
           case 4:
-            return t5.push(
-              Object.assign({}, item._doc, (item.loai_phieuThu = 4))
-            );
+            return finalArr.t6.push(Object.assign({}, item._doc));
           case 5:
-            return t6.push(
-              Object.assign({}, item._doc, (item.loai_phieuThu = 5))
-            );
+            return finalArr.t7.push(Object.assign({}, item._doc));
           case 6:
-            return t7.push(
-              Object.assign({}, item._doc, (item.loai_phieuThu = 6))
-            );
-          case 7:
-            return cn.push(
-              Object.assign({}, item._doc, (item.loai_phieuThu = 7))
-            );
+            return finalArr.cn.push(Object.assign({}, item._doc));
         }
         return item;
       }
     });
-    finalArr.push({ t2, t3, t4, t5, t6, t7, cn });
     return res.status(200).json(finalArr);
   } catch (err) {
     return res.status(400).json(err);
@@ -339,6 +327,47 @@ const getTienXeTheoNam = async (year, res) => {
   }
 };
 
+/*
+============================================================================================
+                                    Lấy phiếu giữ xe user
+============================================================================================
+*/
+
+const getBillUser = async (idCuDan, res) => {
+  try {
+    const chuSoHuu = mongoose.Types.ObjectId(idCuDan);
+    const bills = await CanHo.aggregate([
+      {
+        $match: {
+          chuSoHuu: chuSoHuu,
+        },
+      },
+      {
+        $lookup: {
+          from: "phieuthus",
+          localField: "_id",
+          foreignField: "id_canHo",
+          as: "phieuThu",
+        },
+      },
+      {
+        $project: {
+          phieuThu: 1,
+        },
+      },
+    ]);
+
+    bills.forEach((bill) => {
+      return (bill.phieuThu = bill.phieuThu.filter(
+        (x) => x.tinhTrang === false
+      ));
+    });
+    return res.status(200).json(bills);
+  } catch (err) {
+    return res.status(200).json(err);
+  }
+};
+
 module.exports = {
   getTaiKhoanCuDan,
   getResident,
@@ -352,4 +381,5 @@ module.exports = {
   getTienXeTheoTuan,
   getTienXeTheoThang,
   getTienXeTheoNam,
+  getBillUser,
 };

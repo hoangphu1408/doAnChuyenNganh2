@@ -58,7 +58,7 @@ class TablePhieuNuoc extends Component {
         text: "Tổng tiền",
         sortable: true,
         cell: (record, index) => {
-          return record.tongTien + " vnđ";
+          return record.tongTien.toLocaleString() + " vnđ";
         },
       },
       {

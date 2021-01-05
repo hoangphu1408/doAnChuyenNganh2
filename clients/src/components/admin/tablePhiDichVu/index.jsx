@@ -21,6 +21,9 @@ class TablePhiDichVu extends Component {
         key: "giaTien",
         text: "Giá tiền",
         sortable: true,
+        cell: (record, index) => {
+          return record.giaTien.toLocaleString() + " vnđ";
+        },
       },
       {
         key: "action",

@@ -135,7 +135,7 @@ class ThemPhieuNuoc extends Component {
                       onChange={this._handlerChange}
                       onBlur={this._handleBlur}
                     />
-                    {this.renderErrors(this.state.errors.chiSoMoi)}
+                    {this.renderErrors(this.state.errors.chiSoCu)}
                   </div>
                 </div>
               </div>
