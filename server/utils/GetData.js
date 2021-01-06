@@ -212,7 +212,7 @@ const getPhieuQL = async (res) => {
 ============================================================================================
 */
 
-const getTienXeTheoTuan = async (week, res) => {
+const getTienXeTheoTuan = async (week, year, res) => {
   try {
     const phieuTienXe = await PhieuThu.find({ loai_phieuThu: "parking_fee" });
     let finalArr = {
@@ -227,25 +227,31 @@ const getTienXeTheoTuan = async (week, res) => {
     phieuTienXe.filter((item) => {
       let date = new Date(item.ngayLapPhieu).getTime();
       let isWeek = moment(date).isoWeek();
-      let weekDay = moment(date).month();
-      if (week == isWeek) {
-        switch (weekDay) {
-          case 0:
-            return finalArr.t2.push(Object.assign({}, item._doc));
-          case 1:
-            return finalArr.t3.push(Object.assign({}, item._doc));
-          case 2:
-            return finalArr.t4.push(Object.assign({}, item._doc));
-          case 3:
-            return finalArr.t5.push(Object.assign({}, item._doc));
-          case 4:
-            return finalArr.t6.push(Object.assign({}, item._doc));
-          case 5:
-            return finalArr.t7.push(Object.assign({}, item._doc));
-          case 6:
-            return finalArr.cn.push(Object.assign({}, item._doc));
+      let isYear = moment(date).year();
+      let weekDay = moment(date).isoWeekday();
+      if (item.tinhTrang === true) {
+        if (year == isYear) {
+          if (week == isWeek) {
+            switch (weekDay) {
+              case 1:
+                return finalArr.t2.push(Object.assign({}, item._doc));
+              case 2:
+                return finalArr.t3.push(Object.assign({}, item._doc));
+              case 3:
+                return finalArr.t4.push(Object.assign({}, item._doc));
+              case 4:
+                return finalArr.t5.push(Object.assign({}, item._doc));
+              case 5:
+                return finalArr.t6.push(Object.assign({}, item._doc));
+              case 6:
+                return finalArr.t7.push(Object.assign({}, item._doc));
+              case 0:
+                return finalArr.cn.push(Object.assign({}, item._doc));
+            }
+            return item;
+          }
+          return item;
         }
-        return item;
       }
     });
     return res.status(200).json(finalArr);
@@ -254,14 +260,19 @@ const getTienXeTheoTuan = async (week, res) => {
   }
 };
 
-const getTienXeTheoThang = async (month, res) => {
+const getTienXeTheoThang = async (month, year, res) => {
   try {
     const phieuTienXe = await PhieuThu.find({ loai_phieuThu: "parking_fee" });
     let newArr = phieuTienXe.filter((item) => {
       let date = new Date(item.ngayLapPhieu).getTime();
       let isMonth = moment(date).month();
-      if (month == isMonth) {
-        return item;
+      let isYear = moment(date).year();
+      if (item.tinhTrang === true) {
+        if (year == isYear) {
+          if (month == isMonth) {
+            return item;
+          }
+        }
       }
     });
     return res.status(200).json(newArr);
@@ -291,34 +302,304 @@ const getTienXeTheoNam = async (year, res) => {
       let date = new Date(item.ngayLapPhieu).getTime();
       let isYear = moment(date).year();
       let month = moment(date).month();
-      if (year == isYear) {
-        switch (month) {
-          case 0:
-            return finalArr.t1.push(Object.assign({}, item._doc));
-          case 1:
-            return finalArr.t2.push(Object.assign({}, item._doc));
-          case 2:
-            return finalArr.t3.push(Object.assign({}, item._doc));
-          case 3:
-            return finalArr.t4.push(Object.assign({}, item._doc));
-          case 4:
-            return finalArr.t5.push(Object.assign({}, item._doc));
-          case 5:
-            return finalArr.t6.push(Object.assign({}, item._doc));
-          case 6:
-            return finalArr.t7.push(Object.assign({}, item._doc));
-          case 7:
-            return finalArr.t8.push(Object.assign({}, item._doc));
-          case 8:
-            return finalArr.t9.push(Object.assign({}, item._doc));
-          case 9:
-            return finalArr.t10.push(Object.assign({}, item._doc));
-          case 10:
-            return finalArr.t11.push(Object.assign({}, item._doc));
-          case 11:
-            return finalArr.t12.push(Object.assign({}, item._doc));
+      if (item.tinhTrang === true) {
+        if (year == isYear) {
+          switch (month) {
+            case 0:
+              return finalArr.t1.push(Object.assign({}, item._doc));
+            case 1:
+              return finalArr.t2.push(Object.assign({}, item._doc));
+            case 2:
+              return finalArr.t3.push(Object.assign({}, item._doc));
+            case 3:
+              return finalArr.t4.push(Object.assign({}, item._doc));
+            case 4:
+              return finalArr.t5.push(Object.assign({}, item._doc));
+            case 5:
+              return finalArr.t6.push(Object.assign({}, item._doc));
+            case 6:
+              return finalArr.t7.push(Object.assign({}, item._doc));
+            case 7:
+              return finalArr.t8.push(Object.assign({}, item._doc));
+            case 8:
+              return finalArr.t9.push(Object.assign({}, item._doc));
+            case 9:
+              return finalArr.t10.push(Object.assign({}, item._doc));
+            case 10:
+              return finalArr.t11.push(Object.assign({}, item._doc));
+            case 11:
+              return finalArr.t12.push(Object.assign({}, item._doc));
+          }
+          return item;
         }
-        return item;
+      }
+    });
+    return res.status(200).json(finalArr);
+  } catch (err) {
+    return res.status(400).json(err);
+  }
+};
+
+/*
+============================================================================================
+                                    Thống kê tiền nước
+============================================================================================
+*/
+
+const getTienNuocTheoTuan = async (week, year, res) => {
+  try {
+    const phieuTienXe = await PhieuThu.find({ loai_phieuThu: "water_fee" });
+    let finalArr = {
+      t2: [],
+      t3: [],
+      t4: [],
+      t5: [],
+      t6: [],
+      t7: [],
+      cn: [],
+    };
+    phieuTienXe.filter((item) => {
+      let date = new Date(item.ngayLapPhieu).getTime();
+      let isWeek = moment(date).isoWeek();
+      let isYear = moment(date).year();
+      let weekDay = moment(date).isoWeekday();
+      if (item.tinhTrang === true) {
+        if (year == isYear) {
+          if (week == isWeek) {
+            switch (weekDay) {
+              case 1:
+                return finalArr.t2.push(Object.assign({}, item._doc));
+              case 2:
+                return finalArr.t3.push(Object.assign({}, item._doc));
+              case 3:
+                return finalArr.t4.push(Object.assign({}, item._doc));
+              case 4:
+                return finalArr.t5.push(Object.assign({}, item._doc));
+              case 5:
+                return finalArr.t6.push(Object.assign({}, item._doc));
+              case 6:
+                return finalArr.t7.push(Object.assign({}, item._doc));
+              case 0:
+                return finalArr.cn.push(Object.assign({}, item._doc));
+            }
+            return item;
+          }
+          return item;
+        }
+      }
+    });
+    return res.status(200).json(finalArr);
+  } catch (err) {
+    return res.status(400).json(err);
+  }
+};
+
+const getTienNuocTheoThang = async (month, year, res) => {
+  try {
+    const phieuTienXe = await PhieuThu.find({ loai_phieuThu: "water_fee" });
+    let newArr = phieuTienXe.filter((item) => {
+      let date = new Date(item.ngayLapPhieu).getTime();
+      let isMonth = moment(date).month();
+      let isYear = moment(date).year();
+      if (item.tinhTrang === true) {
+        if (year == isYear) {
+          if (month == isMonth) {
+            return item;
+          }
+        }
+      }
+    });
+    return res.status(200).json(newArr);
+  } catch (err) {
+    return res.status(400).json(err);
+  }
+};
+
+const getTienNuocTheoNam = async (year, res) => {
+  try {
+    const phieuTienXe = await PhieuThu.find({ loai_phieuThu: "water_fee" });
+    let finalArr = {
+      t1: [],
+      t2: [],
+      t3: [],
+      t4: [],
+      t5: [],
+      t6: [],
+      t7: [],
+      t8: [],
+      t9: [],
+      t10: [],
+      t11: [],
+      t12: [],
+    };
+    phieuTienXe.filter((item) => {
+      let date = new Date(item.ngayLapPhieu).getTime();
+      let isYear = moment(date).year();
+      let month = moment(date).month();
+      if (item.tinhTrang === true) {
+        if (year == isYear) {
+          switch (month) {
+            case 0:
+              return finalArr.t1.push(Object.assign({}, item._doc));
+            case 1:
+              return finalArr.t2.push(Object.assign({}, item._doc));
+            case 2:
+              return finalArr.t3.push(Object.assign({}, item._doc));
+            case 3:
+              return finalArr.t4.push(Object.assign({}, item._doc));
+            case 4:
+              return finalArr.t5.push(Object.assign({}, item._doc));
+            case 5:
+              return finalArr.t6.push(Object.assign({}, item._doc));
+            case 6:
+              return finalArr.t7.push(Object.assign({}, item._doc));
+            case 7:
+              return finalArr.t8.push(Object.assign({}, item._doc));
+            case 8:
+              return finalArr.t9.push(Object.assign({}, item._doc));
+            case 9:
+              return finalArr.t10.push(Object.assign({}, item._doc));
+            case 10:
+              return finalArr.t11.push(Object.assign({}, item._doc));
+            case 11:
+              return finalArr.t12.push(Object.assign({}, item._doc));
+          }
+          return item;
+        }
+      }
+    });
+    return res.status(200).json(finalArr);
+  } catch (err) {
+    return res.status(400).json(err);
+  }
+};
+
+/*
+============================================================================================
+                                    Thống kê tiền QL
+============================================================================================
+*/
+
+const getTienQuanLyTheoTuan = async (week, year, res) => {
+  try {
+    const phieuTienXe = await PhieuThu.find({ loai_phieuThu: "service_fee" });
+    let finalArr = {
+      t2: [],
+      t3: [],
+      t4: [],
+      t5: [],
+      t6: [],
+      t7: [],
+      cn: [],
+    };
+    phieuTienXe.filter((item) => {
+      let date = new Date(item.ngayLapPhieu).getTime();
+      let isWeek = moment(date).isoWeek();
+      let isYear = moment(date).year();
+      let weekDay = moment(date).isoWeekday();
+      if (item.tinhTrang === true) {
+        if (year == isYear) {
+          if (week == isWeek) {
+            switch (weekDay) {
+              case 1:
+                return finalArr.t2.push(Object.assign({}, item._doc));
+              case 2:
+                return finalArr.t3.push(Object.assign({}, item._doc));
+              case 3:
+                return finalArr.t4.push(Object.assign({}, item._doc));
+              case 4:
+                return finalArr.t5.push(Object.assign({}, item._doc));
+              case 5:
+                return finalArr.t6.push(Object.assign({}, item._doc));
+              case 6:
+                return finalArr.t7.push(Object.assign({}, item._doc));
+              case 0:
+                return finalArr.cn.push(Object.assign({}, item._doc));
+            }
+            return item;
+          }
+          return item;
+        }
+      }
+    });
+    return res.status(200).json(finalArr);
+  } catch (err) {
+    return res.status(400).json(err);
+  }
+};
+
+const getTienQuanLyTheoThang = async (month, year, res) => {
+  try {
+    const phieuTienXe = await PhieuThu.find({ loai_phieuThu: "service_fee" });
+    let newArr = phieuTienXe.filter((item) => {
+      let date = new Date(item.ngayLapPhieu).getTime();
+      let isMonth = moment(date).month();
+      let isYear = moment(date).year();
+      if (item.tinhTrang === true) {
+        if (year == isYear) {
+          if (month == isMonth) {
+            return item;
+          }
+        }
+      }
+    });
+    return res.status(200).json(newArr);
+  } catch (err) {
+    return res.status(400).json(err);
+  }
+};
+
+const getTienQuanLyTheoNam = async (year, res) => {
+  try {
+    const phieuTienXe = await PhieuThu.find({ loai_phieuThu: "service_fee" });
+    let finalArr = {
+      t1: [],
+      t2: [],
+      t3: [],
+      t4: [],
+      t5: [],
+      t6: [],
+      t7: [],
+      t8: [],
+      t9: [],
+      t10: [],
+      t11: [],
+      t12: [],
+    };
+    phieuTienXe.filter((item) => {
+      let date = new Date(item.ngayLapPhieu).getTime();
+      let isYear = moment(date).year();
+      let month = moment(date).month();
+      if (item.tinhTrang === true) {
+        if (year == isYear) {
+          switch (month) {
+            case 0:
+              return finalArr.t1.push(Object.assign({}, item._doc));
+            case 1:
+              return finalArr.t2.push(Object.assign({}, item._doc));
+            case 2:
+              return finalArr.t3.push(Object.assign({}, item._doc));
+            case 3:
+              return finalArr.t4.push(Object.assign({}, item._doc));
+            case 4:
+              return finalArr.t5.push(Object.assign({}, item._doc));
+            case 5:
+              return finalArr.t6.push(Object.assign({}, item._doc));
+            case 6:
+              return finalArr.t7.push(Object.assign({}, item._doc));
+            case 7:
+              return finalArr.t8.push(Object.assign({}, item._doc));
+            case 8:
+              return finalArr.t9.push(Object.assign({}, item._doc));
+            case 9:
+              return finalArr.t10.push(Object.assign({}, item._doc));
+            case 10:
+              return finalArr.t11.push(Object.assign({}, item._doc));
+            case 11:
+              return finalArr.t12.push(Object.assign({}, item._doc));
+          }
+          return item;
+        }
       }
     });
     return res.status(200).json(finalArr);
@@ -333,7 +614,7 @@ const getTienXeTheoNam = async (year, res) => {
 ============================================================================================
 */
 
-const getBillUser = async (idCuDan, res) => {
+const getParkingFeeUser = async (idCuDan, res) => {
   try {
     const chuSoHuu = mongoose.Types.ObjectId(idCuDan);
     const bills = await CanHo.aggregate([
@@ -359,7 +640,77 @@ const getBillUser = async (idCuDan, res) => {
 
     bills.forEach((bill) => {
       return (bill.phieuThu = bill.phieuThu.filter(
-        (x) => x.tinhTrang === false
+        (x) => x.loai_phieuThu === "parking_fee"
+      ));
+    });
+    return res.status(200).json(bills);
+  } catch (err) {
+    return res.status(200).json(err);
+  }
+};
+
+const getWaterFeeUser = async (idCuDan, res) => {
+  try {
+    const chuSoHuu = mongoose.Types.ObjectId(idCuDan);
+    const bills = await CanHo.aggregate([
+      {
+        $match: {
+          chuSoHuu: chuSoHuu,
+        },
+      },
+      {
+        $lookup: {
+          from: "phieuthus",
+          localField: "_id",
+          foreignField: "id_canHo",
+          as: "phieuThu",
+        },
+      },
+      {
+        $project: {
+          phieuThu: 1,
+        },
+      },
+    ]);
+
+    bills.forEach((bill) => {
+      return (bill.phieuThu = bill.phieuThu.filter(
+        (x) => x.loai_phieuThu === "water_fee"
+      ));
+    });
+    return res.status(200).json(bills);
+  } catch (err) {
+    return res.status(200).json(err);
+  }
+};
+
+const getServiceFeeUser = async (idCuDan, res) => {
+  try {
+    const chuSoHuu = mongoose.Types.ObjectId(idCuDan);
+    const bills = await CanHo.aggregate([
+      {
+        $match: {
+          chuSoHuu: chuSoHuu,
+        },
+      },
+      {
+        $lookup: {
+          from: "phieuthus",
+          localField: "_id",
+          foreignField: "id_canHo",
+          as: "phieuThu",
+        },
+      },
+      {
+        $project: {
+          phieuThu: 1,
+        },
+      },
+    ]);
+
+    bills.forEach((bill) => {
+      return (bill.phieuThu = bill.phieuThu.filter(
+        (x) => x.loai_phieuThu === "service_fee"
       ));
     });
     return res.status(200).json(bills);
@@ -381,5 +732,13 @@ module.exports = {
   getTienXeTheoTuan,
   getTienXeTheoThang,
   getTienXeTheoNam,
-  getBillUser,
+  getTienNuocTheoTuan,
+  getTienNuocTheoThang,
+  getTienNuocTheoNam,
+  getTienQuanLyTheoNam,
+  getTienQuanLyTheoThang,
+  getTienQuanLyTheoTuan,
+  getParkingFeeUser,
+  getWaterFeeUser,
+  getServiceFeeUser,
 };

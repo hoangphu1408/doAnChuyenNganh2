@@ -208,15 +208,63 @@ router.put("/api/phieu-thu/checkThanhToan", async (req, res) => {
 */
 
 router.get("/api/thong-ke/tienXeTheoTuan", async (req, res) => {
-  return await getData.getTienXeTheoTuan(req.query.week, res);
+  return await getData.getTienXeTheoTuan(req.query.week, req.query.year, res);
 });
 
 router.get("/api/thong-ke/tienXeTheoThang", async (req, res) => {
-  return await getData.getTienXeTheoThang(req.query.month, res);
+  return await getData.getTienXeTheoThang(req.query.month, req.query.year, res);
 });
 
 router.get("/api/thong-ke/tienXeTheoNam", async (req, res) => {
   return await getData.getTienXeTheoNam(req.query.year, res);
+});
+
+/*
+============================================================================================
+                                    Thống kê tiền xe theo tuần
+============================================================================================
+*/
+
+router.get("/api/thong-ke/tienNuocTheoTuan", async (req, res) => {
+  return await getData.getTienNuocTheoTuan(req.query.week, req.query.year, res);
+});
+
+router.get("/api/thong-ke/tienNuocTheoThang", async (req, res) => {
+  return await getData.getTienNuocTheoThang(
+    req.query.month,
+    req.query.year,
+    res
+  );
+});
+
+router.get("/api/thong-ke/tienNuocTheoNam", async (req, res) => {
+  return await getData.getTienNuocTheoNam(req.query.year, res);
+});
+
+/*
+============================================================================================
+                                    Thống kê tiền xe theo tuần
+============================================================================================
+*/
+
+router.get("/api/thong-ke/tienQuanLyTheoTuan", async (req, res) => {
+  return await getData.getTienQuanLyTheoTuan(
+    req.query.week,
+    req.query.year,
+    res
+  );
+});
+
+router.get("/api/thong-ke/tienQuanLyTheoThang", async (req, res) => {
+  return await getData.getTienQuanLyTheoThang(
+    req.query.month,
+    req.query.year,
+    res
+  );
+});
+
+router.get("/api/thong-ke/tienQuanLyTheoNam", async (req, res) => {
+  return await getData.getTienQuanLyTheoNam(req.query.year, res);
 });
 
 module.exports = router;

@@ -73,3 +73,16 @@ export const DELETE_QUAN_LY = "DELETE_QUAN_LY";
 export const CHECK_PHIEU_NUOC = "CHECK_PHIEU_NUOC";
 export const CHECK_GIU_XE = "CHECK_GIU_XE";
 export const CHECK_QUAN_LY = "CHECK_QUAN_LY";
+
+// THONG KE TIEN
+export const GET_TX_THEO_TUAN = "GET_TX_THEO_TUAN";
+export const GET_TX_THEO_THANG = "GET_TX_THEO_THANG";
+export const GET_TX_THEO_NAM = "GET_TX_THEO_NAM";
+
+export const GET_NUOC_THEO_TUAN = "GET_NUOC_THEO_TUAN";
+export const GET_NUOC_THEO_THANG = "GET_NUOC_THEO_THANG";
+export const GET_NUOC_THEO_NAM = "GET_NUOC_THEO_NAM";
+
+export const GET_QL_THEO_TUAN = "GET_QL_THEO_TUAN";
+export const GET_QL_THEO_THANG = "GET_QL_THEO_THANG";
+export const GET_QL_THEO_NAM = "GET_QL_THEO_NAM";

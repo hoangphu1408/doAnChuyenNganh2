@@ -7,6 +7,7 @@ import { canHoReducer } from "./canHoReducer";
 import { accountLoginRecuder } from "./accountLogin";
 import { thongBaoReducer } from "./thongBao";
 import { chiPhiReducer } from "./chiPhiReducer";
+import { thongKeReducer } from "./thongKeReducer";
 export const rootReducer = combineReducers({
   accountLoginRecuder,
   RegisterReducer,
@@ -16,4 +17,5 @@ export const rootReducer = combineReducers({
   canHoReducer,
   thongBaoReducer,
   chiPhiReducer,
+  thongKeReducer,
 });

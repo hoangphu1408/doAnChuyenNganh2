@@ -9,7 +9,15 @@ import PhieuQuanLy from "../phieuQuanLy";
 import Resident from "../resident";
 import TaiKhoanQuanTri from "../taiKhoanQuanTri";
 import ThongBao from "../thongBao";
-
+import ThongKeTienNuocTheoNam from "../thongKeTienNuocTheoNam";
+import ThongKeTienNuocTheoThang from "../thongKeTienNuocTheoThang";
+import ThongKeTienNuocTheoTuan from "../thongKeTienNuocTheoTuan";
+import ThongKeTienXeTheoNam from "../thongKeTienXeTheoNam";
+import ThongKeTienXeTheoThang from "../thongKeTienXeTheoThang";
+import ThongKeTienXeTheoTuan from "../thongKeTienXeTheoTuan";
+import ThongKeTienQuanLyTheoTuan from "../thongKeTienQLTheoTuan";
+import ThongKeTienQuanLyTheoThang from "../thongKeTienQLTheoThang";
+import ThongKeTienQuanLyTheoNam from "../thongKeTienQLTheoNam";
 import "./styles.css";
 class Dashboard extends Component {
   logOut = () => {
@@ -91,6 +99,33 @@ class Dashboard extends Component {
           </Route>
           <Route exact path="/admin/chi-phi/tien-giu-xe">
             <PhieuGiuXe />
+          </Route>
+          <Route exact path="/admin/thong-ke/tien-giu-xe/theo-tuan">
+            <ThongKeTienXeTheoTuan />
+          </Route>
+          <Route exact path="/admin/thong-ke/tien-giu-xe/theo-thang">
+            <ThongKeTienXeTheoThang />
+          </Route>
+          <Route exact path="/admin/thong-ke/tien-giu-xe/theo-nam">
+            <ThongKeTienXeTheoNam />
+          </Route>
+          <Route exact path="/admin/thong-ke/tien-nuoc/theo-tuan">
+            <ThongKeTienNuocTheoTuan />
+          </Route>
+          <Route exact path="/admin/thong-ke/tien-nuoc/theo-thang">
+            <ThongKeTienNuocTheoThang />
+          </Route>
+          <Route exact path="/admin/thong-ke/tien-nuoc/theo-nam">
+            <ThongKeTienNuocTheoNam />
+          </Route>
+          <Route exact path="/admin/thong-ke/tien-quan-ly/theo-tuan">
+            <ThongKeTienQuanLyTheoTuan />
+          </Route>
+          <Route exact path="/admin/thong-ke/tien-quan-ly/theo-thang">
+            <ThongKeTienQuanLyTheoThang />
+          </Route>
+          <Route exact path="/admin/thong-ke/tien-quan-ly/theo-nam">
+            <ThongKeTienQuanLyTheoNam />
           </Route>
         </Switch>
       </div>
