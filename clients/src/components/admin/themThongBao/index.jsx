@@ -9,6 +9,7 @@ class ThemThongBao extends Component {
       opened: false,
       content: "",
       email: "",
+      img: "",
     };
   }
   _handleSubmit = (e) => {
@@ -17,6 +18,23 @@ class ThemThongBao extends Component {
   _handlerChange = (content, editor) => {
     this.setState({
       content: content,
+    });
+  };
+  _handleChange = async (e) => {
+    const files = e.target.files;
+    const data = new FormData();
+    data.append("file", files[0]);
+    data.append("upload_preset", "ttgarden");
+    const res = await fetch(
+      "http://api.cloudinary.com/v1_1/ttgarden/image/upload",
+      {
+        method: "POST",
+        body: data,
+      }
+    );
+    const file = await res.json();
+    this.setState({
+      img: file.url,
     });
   };
   openForm = (value) => {
@@ -30,7 +48,11 @@ class ThemThongBao extends Component {
       });
   };
   themThongBao = () => {
-    this.props.addThongBao(this.props.accountLogin.email, this.state.content);
+    const { content, img } = this.state;
+    this.props.addThongBao(this.props.accountLogin.email, content, img);
+    this.setState({
+      img: "",
+    });
   };
   renderForm = () => {
     if (this.state.opened === false) return "";
@@ -39,7 +61,6 @@ class ThemThongBao extends Component {
         <form onSubmit={this._handleSubmit}>
           <Editor
             apiKey="wth8ysk9upmzjhc92k67c7eirewbqlebj0n2cg5fhq1dv4kw"
-            initialValue="<p>This is the initial content of the editor</p>"
             init={{
               height: 500,
               menubar: false,
@@ -54,12 +75,19 @@ class ThemThongBao extends Component {
                 // eslint-disable-next-line
                 "undo redo | formatselect | bold italic backcolor | \
              alignleft aligncenter alignright alignjustify | \
-             bullist numlist outdent indent | removeformat | help | media| insertdatetime | code| image| preview",
+             bullist numlist outdent indent | removeformat | help | media| insertdatetime | code| preview",
             }}
             onEditorChange={this._handlerChange}
           />
+          <img
+            src={this.state.img}
+            style={{ width: "10%", display: "block" }}
+            alt=""
+          />
+          <input type="file" onChange={this._handleChange} />
+
           <button
-            className="btn addingResident__btn"
+            className="btn addingResident__btn d-block"
             onClick={this.themThongBao}
           >
             Thêm
@@ -68,14 +96,9 @@ class ThemThongBao extends Component {
       );
   };
   componentDidMount = () => {
-    this.setState(
-      {
-        email: this.props.accountLogin.email,
-      },
-      () => {
-        console.log("email", this.state.email);
-      }
-    );
+    this.setState({
+      email: this.props.accountLogin.email,
+    });
   };
   render() {
     return (
@@ -99,8 +122,8 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    addThongBao: (email, data) => {
-      dispatch(actions.themThongBao(email, data));
+    addThongBao: (email, data, img) => {
+      dispatch(actions.themThongBao(email, data, img));
     },
   };
 };

@@ -211,11 +211,12 @@ const themCanHo = async (data, res) => {
 
 const themThongBao = async (data, res) => {
   try {
-    const { email, content } = data;
+    const { email, content, hinhAnh } = data;
     const account = await Account.findOne({ email: email });
     const newThongBao = new BaiDang({
       id_taiKhoan: mongoose.Types.ObjectId(account._id),
       noiDung: content,
+      hinhAnh: hinhAnh,
       theLoai: "Thông báo",
       tinhTrang: true,
       ngayDang: new Date().toISOString(),

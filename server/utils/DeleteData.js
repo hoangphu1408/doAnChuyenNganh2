@@ -3,6 +3,7 @@ const Account = require("../models/account");
 const CanHo = require("../models/canHo");
 const ChiPhi = require("../models/chiPhi");
 const PhieuThu = require("../models/phieuThuTien");
+const BaiDang = require("../models/baiDang");
 const xoaCuDan = async (id, res) => {
   try {
     const xoa = await CuDan.findByIdAndDelete({ _id: id }, (err, data) => {
@@ -64,6 +65,17 @@ const xoaCanHo = async (id, res) => {
     );
   } catch (err) {
     return res.status(400).json(err);
+  }
+};
+
+const xoaBaiDang = async (id, res) => {
+  try {
+    const xoa = await BaiDang.findByIdAndDelete({ _id: id }, (err, data) => {
+      if (err) return res.json({ error_xoaBaiDang: "Khong the xoa" });
+      else return res.status(200).json({ _id: id });
+    });
+  } catch (err) {
+    return res.status(400);
   }
 };
 
@@ -144,4 +156,5 @@ module.exports = {
   xoaPhieuNuoc,
   xoaPhieuGiuXe,
   xoaPhieuQL,
+  xoaBaiDang,
 };

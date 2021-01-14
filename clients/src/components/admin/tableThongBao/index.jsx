@@ -57,9 +57,9 @@ class TableThongBao extends Component {
               </button>
               <button
                 className="btn btn-info btn-sm"
-                //onClick={this.deleteRecord.bind(this, record, index)}
+                onClick={this.checkRecord.bind(this, record, index)}
               >
-                <i class="fa fa-eye"></i>
+                <i className="fa fa-eye"></i>
               </button>
             </Fragment>
           );
@@ -88,6 +88,7 @@ class TableThongBao extends Component {
         id_taiKhoan: "",
         email: "",
         noiDung: "",
+        hinhAnh: "",
         ngayDang: "",
         theLoai: "",
         tinhTrang: "",
@@ -106,6 +107,7 @@ class TableThongBao extends Component {
           id_taiKhoan: record.id_taiKhoan,
           email: record.email,
           noiDung: record.noiDung,
+          hinhAnh: record.hinhAnh,
           ngayDang: record.ngayDang,
           theLoai: record.theLoai,
           tinhTrang: record.tinhTrang,
@@ -119,6 +121,7 @@ class TableThongBao extends Component {
           id_taiKhoan: "",
           email: "",
           noiDung: "",
+          hinhAnh: "",
           ngayDang: "",
           theLoai: "",
           tinhTrang: "",
@@ -132,6 +135,7 @@ class TableThongBao extends Component {
           id_taiKhoan: record.id_taiKhoan,
           email: record.email,
           noiDung: record.noiDung,
+          hinhAnh: record.hinhAnh,
           ngayDang: record.ngayDang,
           theLoai: record.theLoai,
           tinhTrang: record.tinhTrang,
@@ -140,9 +144,12 @@ class TableThongBao extends Component {
   };
 
   deleteRecord = (record, index) => {
-    this.props.deleteCanHo(record._id);
+    this.props.deleteThongBao(record._id);
   };
 
+  checkRecord = (record, index) => {
+    this.props.onThongBao(record);
+  };
   onSort = (column, records, sortOrder) => {
     return orderBy(records, [column], [sortOrder]);
   };
@@ -152,29 +159,32 @@ class TableThongBao extends Component {
   _handlerChange = (content, editor) => {
     // const { name, value } = e.target;
     this.setState({
-      baiDang: { ...this.state.baiDang, content: content },
+      baiDang: { ...this.state.baiDang, noiDung: content },
     });
   };
-  _handleBlur = (e) => {
-    const { name, value } = e.target;
-    const errorMsg = this.validateInput(name, value);
-    this.setState({ errors: { ...this.state.errors, [name]: errorMsg } });
+  _handleImg = async (e) => {
+    const files = e.target.files;
+    const data = new FormData();
+    data.append("file", files[0]);
+    data.append("upload_preset", "ttgarden");
+    const res = await fetch(
+      "http://api.cloudinary.com/v1_1/ttgarden/image/upload",
+      {
+        method: "POST",
+        body: data,
+      }
+    );
+    const file = await res.json();
+    this.setState({
+      baiDang: { ...this.state.baiDang, hinhAnh: file.url },
+    });
   };
   componentDidMount = () => {
     this.props.getListDanhSachThongBao();
   };
-  chinhSuaCanHo = () => {
-    this.props.editCanHo(this.state.canHo);
-    console.log("State can ho", this.state.canHo);
-  };
-  renderDanhSachCuDan = () => {
-    return this.props.danhSachCuDan?.map((item) => {
-      return (
-        <option key={item._id} value={item._id}>
-          {item.hoVaTenDem} {item.ten}
-        </option>
-      );
-    });
+  suaThongBaoz = () => {
+    const { baiDang } = this.state;
+    this.props.editThongBao(baiDang);
   };
   renderEdit = () => {
     let { baiDang } = this.state;
@@ -202,9 +212,15 @@ class TableThongBao extends Component {
             }}
             onEditorChange={this._handlerChange}
           />
+          <img
+            src={baiDang.hinhAnh}
+            style={{ width: "10%", display: "block" }}
+            alt=""
+          />
+          <input type="file" onChange={this._handleImg} />
           <button
-            className="btn addingResident__btn"
-            onClick={this.themThongBao}
+            className="btn addingResident__btn d-block"
+            onClick={this.suaThongBaoz}
           >
             Chỉnh sửa
           </button>
@@ -215,7 +231,6 @@ class TableThongBao extends Component {
 
   render() {
     let { danhSachThongBao } = this.props;
-    console.log(danhSachThongBao);
     return (
       <div>
         {this.renderEdit()}
@@ -239,6 +254,15 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getListDanhSachThongBao: () => {
       dispatch(actions.layDanhSachThongBao());
+    },
+    editThongBao: (data) => {
+      dispatch(actions.suaThongBao(data));
+    },
+    onThongBao: (data) => {
+      dispatch(actions.checkThongBao(data));
+    },
+    deleteThongBao: (data) => {
+      dispatch(actions.xoaThongBao(data));
     },
   };
 };

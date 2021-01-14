@@ -10,6 +10,7 @@ const CanHo = require("../models/canHo");
 const BaiDang = require("../models/baiDang");
 const ChiPhi = require("../models/chiPhi");
 const PhieuThu = require("../models/phieuThuTien");
+const baiDang = require("../models/baiDang");
 const suaCuDan = async (id, data, res) => {
   const { ten, hoVaTenDem, namSinh, gioiTinh, canCuocCongDan, hoKhau } = data;
   let _id = mongoose.Types.ObjectId(id);
@@ -236,9 +237,10 @@ const chinhSuaCanHo = async (id, data, res) => {
 const chinhSuaThongBao = async (id, data, res) => {
   try {
     const _id = mongoose.Types.ObjectId(id);
-    const { content } = data;
+    const { content, hinhAnh } = data;
     const dt = {
-      content: content,
+      noiDung: content,
+      hinhAnh: hinhAnh,
     };
     const updateThongBao = await BaiDang.findByIdAndUpdate(
       {
@@ -250,7 +252,7 @@ const chinhSuaThongBao = async (id, data, res) => {
     const baiDang = await BaiDang.aggregate([
       {
         $match: {
-          _id: newThongBao._id,
+          _id: updateThongBao._id,
         },
       },
       {
@@ -269,12 +271,56 @@ const chinhSuaThongBao = async (id, data, res) => {
           id_taiKhoan: 1,
           noiDung: 1,
           theLoai: 1,
+          hinhAnh: 1,
           tinhTrang: 1,
           ngayDang: 1,
         },
       },
     ]);
-    return re.status(200).json(baiDang);
+    return res.status(200).json(baiDang);
+  } catch (err) {
+    return res.status(400);
+  }
+};
+
+const updateTrangThaiThongBao = async (id, data, res) => {
+  try {
+    const { tinhTrang } = data;
+    const dt = {
+      tinhTrang: tinhTrang,
+    };
+    const updateThongBao = await BaiDang.findOneAndUpdate({ _id: id }, dt, {
+      new: true,
+    });
+    const baiDang = await BaiDang.aggregate([
+      {
+        $match: {
+          _id: updateThongBao._id,
+        },
+      },
+      {
+        $lookup: {
+          from: "accounts",
+          localField: "id_taiKhoan",
+          foreignField: "_id",
+          as: "Owner",
+        },
+      },
+      {
+        $project: {
+          Owner: {
+            email: 1,
+          },
+          id_taiKhoan: 1,
+          noiDung: 1,
+          theLoai: 1,
+          hinhAnh: 1,
+          tinhTrang: 1,
+          ngayDang: 1,
+        },
+      },
+    ]);
+    return res.status(200).json(baiDang);
   } catch (err) {
     return res.status(400);
   }
@@ -502,4 +548,5 @@ module.exports = {
   chinhSuaPhieuNuoc,
   chinhSuaPhieuGiuXe,
   updateThanhToan,
+  updateTrangThaiThongBao,
 };

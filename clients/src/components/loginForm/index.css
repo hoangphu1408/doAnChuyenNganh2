@@ -7,7 +7,7 @@
 
 .login-title{
     font-family: 'Quicksand', sans-serif;
-    color: #8dcaff;
+    color: #74d14c;
 }
 
 .login-form_wrapper .form-group {
@@ -53,7 +53,7 @@
 }
 
 .login-form_wrapper .remember a, .login-form_wrapper .remember span {
-    color: #8dcaff;
+    color: #74d14c;
     text-decoration: none;
 }
 
@@ -62,14 +62,15 @@
     margin: 0 auto;
     padding: 1rem 2rem;
     border-radius: 50px;
-    background: linear-gradient(to right,#8dcaff,#0684f1);
+    background: linear-gradient(to right,#74d14c,#bbff9c);
     transition: all .5s;
     border: none;
     color: white;
 }
 
 .login-btn:hover{
-    background: #8dcaff;
+    background: #bbff9c;
+    
 }
 
 .login-btn:focus {
@@ -79,7 +80,7 @@
 .login-btn-signUp {
     background: none;
     border: none;
-    color: #8dcaff;
+    color: #74d14c;
     margin: 0 auto;
     display: flex;
 }

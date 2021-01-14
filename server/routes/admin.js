@@ -99,14 +99,29 @@ router.delete("/api/xoaCanHo", async (req, res) => {
 ============================================================================================
 */
 
-router.get("/api/layDanhSachThongBao", async (req, res) => {
+router.get("/api/thongBao", async (req, res) => {
   return await getData.getBaiDang(res);
 });
 
-router.post("/api/dangThongBao", async (req, res) => {
+router.post("/api/thongBao", async (req, res) => {
   return await postData.themThongBao(req.body.data, res);
 });
 
+router.put("/api/thongBao", async (req, res) => {
+  return await putData.chinhSuaThongBao(req.query.id, req.body.data, res);
+});
+
+router.put("/api/checkThongBao", async (req, res) => {
+  return await putData.updateTrangThaiThongBao(
+    req.query.id,
+    req.body.data,
+    res
+  );
+});
+
+router.delete("/api/thongBao", async (req, res) => {
+  return await deleteData.xoaBaiDang(req.query.id, res);
+});
 /*
 ============================================================================================
                                     Phí dịch vụ

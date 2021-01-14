@@ -7,7 +7,7 @@
 
 .register-title{
     font-family: 'Quicksand', sans-serif;
-    color: #8dcaff;
+    color: #74d14c;
 }
 
 .register-form_wrapper .form-group {
@@ -61,7 +61,7 @@
     top: -1px;
     left: 52px;
     font-size: 2rem;
-    color: #8dcaff;
+    color: #74d14c;
 }
 
 .register-arrow_btn{
@@ -74,14 +74,14 @@
     margin: 0 auto;
     padding: 1rem 2rem;
     border-radius: 50px;
-    background: linear-gradient(to right,#8dcaff,#0684f1);
+    background: linear-gradient(to right,#74d14c,#bbff9c);
     transition: all .5s;
     border: none;
     color: white;
 }
 
 .register-btn:hover{
-    background: #8dcaff;
+    background: #bbff9c;
 }
 
 .register-btn:focus, .register-arrow_btn:focus {

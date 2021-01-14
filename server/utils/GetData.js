@@ -99,6 +99,7 @@ const getBaiDang = async (res) => {
         },
         id_taiKhoan: 1,
         noiDung: 1,
+        hinhAnh: 1,
         theLoai: 1,
         tinhTrang: 1,
         ngayDang: 1,

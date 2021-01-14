@@ -41,6 +41,7 @@ export const DELETE_CAN_HO = "DELETE_CAN_HO";
 export const SAVE_LIST_THONG_BAO = "SAVE_LIST_THONG_BAO";
 export const ADD_THONG_BAO = "ADD_THONG_BAO";
 export const EDIT_THONG_BAO = "EDIT_THONG_BAO";
+export const CHECK_THONG_BAOS = "CHECK_THONG_BAOS";
 export const DELETE_THONG_BAO = "DELETE_THONG_BAO";
 
 // Chi phí
